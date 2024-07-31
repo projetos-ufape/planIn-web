@@ -1,12 +1,11 @@
-import { Box, TextField } from "@mui/material";
 import { ThemeProvider } from "./context/ThemeProvider";
+import { RouterProvider } from "./routes/index.routes";
+
 
 function App() {
   return (
     <ThemeProvider>
-      <Box>
-        <TextField label="Testinho" />
-      </Box>
+      <RouterProvider />
     </ThemeProvider>
   );
 }
