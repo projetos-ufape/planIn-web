@@ -1,9 +1,10 @@
-import { Container, Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import { Tabs } from "../components/Tabs";
 
 export function Home() {
   return (
-    <Container>
-      <Typography>Página Home</Typography>
-    </Container>
+    <Box>
+      <Tabs />
+    </Box>
   )
 }
