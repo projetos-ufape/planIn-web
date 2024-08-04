@@ -28,7 +28,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
-    if( prefersColorScheme.matches ) {
+    if( !prefersColorScheme.matches ) {
       setMode("dark");
     } else {
       setMode("light");
@@ -38,7 +38,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <Provider theme={theme}>
-        <Box padding={0} minHeight={"100vh"} flex={1} bgcolor={theme.palette.background.default} >
+        <Box padding={0} display="flex" minHeight={"100vh"} flex={1} bgcolor={theme.palette.background.default} >
           {children}
         </Box>
       </Provider>
