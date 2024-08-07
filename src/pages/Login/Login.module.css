@@ -1,12 +1,11 @@
+*{
+    overflow-x: hidden;
+}
+
 .container{
     min-height: 100vh;
     min-width: 100vw;
     background-color:#FFF8F7;
-}
-
-.header{
-    padding: 23px;
-    margin-left: 40px;
 }
 
 .content{
@@ -19,10 +18,16 @@
 
 .title{
     font-family: "Poppins", sans-serif;
+    color: #231919;
+    font-weight: 400;
+    margin-bottom: 5px;
 }
 
 .subtitle{
     font-family: "Ubuntu", sans-serif;
+    color: #857371;
+    font-weight: 400;
+    margin-top: 0;
 }
 .btn{
     border-radius: 100px;

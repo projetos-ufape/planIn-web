@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Input, Button } from "@mui/material";
-import Logo from "../../assets/Planit.svg";
-import styles from "./LoginComponent.module.css";
+import LogoHeader from "../../components/LogoHeader/LogoHeader";
+import styles from "./Login.module.css";
 
-const LoginComponent: React.FC = () => {
+const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -25,9 +25,7 @@ const LoginComponent: React.FC = () => {
   return (
     <div>
       <div className={styles.container}>
-        <section className={styles.header}>
-          <img src={Logo} alt="Logo" />
-        </section>
+        <LogoHeader />
         <section className={styles.content}>
           <h1 className={styles.title}>Seja bem-vindo(a)</h1>
           <h3 className={styles.subtitle}>Para começar, informe seu e-mail</h3>
@@ -62,7 +60,9 @@ const LoginComponent: React.FC = () => {
                       }}
                     />
                   </div>
-                  <a className={styles.forgotPassword} href="">Equeceu sua senha ?</a>
+                  <a className={styles.forgotPassword} href="">
+                    Equeceu sua senha ?
+                  </a>
                 </div>
               )}
               <Button
@@ -93,4 +93,4 @@ const LoginComponent: React.FC = () => {
   );
 };
 
-export default LoginComponent;
+export default Login;

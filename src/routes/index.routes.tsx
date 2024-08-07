@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Home } from "../pages/Home";
-import Login from "../pages/Login";
+import Login from "../pages/Login/Login";
 import { NotFound } from "../pages/NotFound";
 
 export function RouterProvider() {
