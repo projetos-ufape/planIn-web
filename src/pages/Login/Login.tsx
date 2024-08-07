@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Button } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import LogoHeader from "../../components/LogoHeader/LogoHeader";
 import styles from "./Login.module.css";
 
@@ -28,39 +28,35 @@ const Login: React.FC = () => {
         <LogoHeader />
         <section className={styles.content}>
           <h1 className={styles.title}>Seja bem-vindo(a)</h1>
-          <h3 className={styles.subtitle}>Para começar, informe seu e-mail</h3>
+          <h3 className={styles.subtitle}>{!showPassword? "Para começar, informe seu e-mail" : "Agora sua senha de acesso"}</h3>
           <form onSubmit={showPassword ? handleLoginSubmit : handleEmailSubmit}>
             <div className={styles.inputs}>
               <div className={styles.input}>
-                <Input
+                <TextField
+                  label="Email"
                   value={email}
-                  placeholder="Email"
                   onChange={(e) => setEmail(e.target.value)}
                   sx={{
-                    border: "2px solid #904A46",
                     borderRadius: "4px",
-                    padding: "6px",
-                    width: "300px",
+                    width: "350px",
                   }}
                 />
               </div>
               {showPassword && (
                 <div className={styles.inputContainer}>
                   <div className={styles.input}>
-                    <Input
+                    <TextField
+                      label="senha"
                       type="password"
-                      placeholder="Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       sx={{
-                        border: "2px solid #904A46",
-                        padding: "6px",
-                        width: "300px",
+                        width: "350px",
                         marginTop: "5px",
                       }}
                     />
                   </div>
-                  <a className={styles.forgotPassword} href="">
+                  <a className={styles.forgotPassword} href="#">
                     Equeceu sua senha ?
                   </a>
                 </div>
@@ -73,7 +69,7 @@ const Login: React.FC = () => {
                   color: "white",
                   fontSize: "14px",
                   textAlign: "center",
-                  padding: "14px",
+                  padding: "10px",
                   width: "150px",
                   marginTop: "15px",
                   transition: "0.4s",
