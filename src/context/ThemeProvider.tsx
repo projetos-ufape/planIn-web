@@ -4,14 +4,17 @@ import {
   createTheme,
   PaletteMode,
   ThemeProvider as Provider,
+  Theme,
 } from "@mui/material";
 import { createContext, ReactNode } from "react";
 import { getDesignTokens } from "../utils/theme";
 
-export const ColorModeContext = createContext({ toggleColorMode: () => {} });
+export const ColorModeContext = createContext({ toggleColorMode: () => {}, theme: {} as Theme });
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [mode, setMode] = React.useState<PaletteMode>("dark");
+  const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+  
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
@@ -19,16 +22,16 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
           prevMode === "light" ? "dark" : "light"
         );
       },
+      theme: theme
     }),
-    []
+    [theme]
   );
 
-  const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
   useEffect(() => {
     const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
-    if( !prefersColorScheme.matches ) {
+    if( prefersColorScheme.matches ) {
       setMode("dark");
     } else {
       setMode("light");

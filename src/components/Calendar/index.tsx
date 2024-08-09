@@ -1,25 +1,62 @@
-import { Calendar as BigCalendar, dayjsLocalizer } from "react-big-calendar";
-import dayjs from 'dayjs';
-import { messages } from "./const";
-import timezone from 'dayjs/plugin/timezone';
-import 'dayjs/locale/pt-br';
-dayjs.extend(timezone);
-dayjs.locale("pt-br");
+import { ViewState } from "@devexpress/dx-react-scheduler";
+import { Appointments, DateNavigator, DayView, MonthView, Scheduler, Toolbar, ViewSwitcher, WeekView, CurrentTimeIndicator, AppointmentTooltip } from "@devexpress/dx-react-scheduler-material-ui";
+import { Paper, useTheme } from "@mui/material";
+import { useState } from "react";
+import { AppointmentComponent, AppointmentTooltipContent } from "./Appointment";
+
 
 export function Calendar() {
-  const localizer = dayjsLocalizer(dayjs);
+  
+  const [date, setDate] = useState(new Date());
+  const {palette} = useTheme();
+
 
   return (
-    <BigCalendar
-        localizer={localizer}
-        messages={messages}
-        style={{width: '80%', height: '80%'}}
-        events={[
-          {title: "Teste", start: new Date("2024-08-04 18:00:00"), end: new Date("2024-08-04 18:30:00")},
-          {title: "Teste", start: new Date("2024-08-04 19:00:00"), end: new Date("2024-08-04 20:30:00")},
-          {title: "Teste", start: new Date("2024-08-04 14:00:00"), end: new Date("2024-08-04 16:30:00")},
-          {title: "Teste", start: new Date("2024-08-05 19:00:00"), end: new Date("2024-08-05 20:30:00")},
+    <Paper style={{backgroundColor: palette.background.default}} >
+
+      <Scheduler
+        locale="pt-BR"
+        height={window.innerHeight*0.9}
+        firstDayOfWeek={1}
+        data={[
+          { title: 'Mail New Leads for Follow Up', startDate: '2024-08-05T10:00', bg: "#F0f" },
+          { title: 'Product Meeting', startDate: '2024-08-05T10:30', endDate: '2024-08-05T11:30', bg: "#80f", description: "Um texto bonito de descrição da atividade" },
+          { title: 'Send Territory Sales Breakdown', startDate: '2024-08-05T12:35', bg: "#F58" },
         ]}
-      />
+        
+        >
+        <ViewState
+          currentDate={date}
+          onCurrentDateChange={setDate}
+        />
+        <Toolbar />
+        <ViewSwitcher />
+        <DateNavigator />
+        <WeekView
+          displayName="Semana"
+          cellDuration={30}
+          startDayHour={4}
+        />
+        <DayView 
+          startDayHour={4}
+          displayName="Dia"
+        />
+        <MonthView 
+          displayName="Mês"
+        />
+        <Appointments 
+          appointmentComponent={AppointmentComponent}
+        />
+        <AppointmentTooltip
+          showCloseButton
+          contentComponent={AppointmentTooltipContent}
+        />
+        <CurrentTimeIndicator 
+          shadePreviousCells
+          shadePreviousAppointments
+        />
+
+      </Scheduler>
+    </Paper>
   )
 }
