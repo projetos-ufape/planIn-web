@@ -4,14 +4,17 @@ import {
   createTheme,
   PaletteMode,
   ThemeProvider as Provider,
+  Theme,
 } from "@mui/material";
 import { createContext, ReactNode } from "react";
 import { getDesignTokens } from "../utils/theme";
 
-export const ColorModeContext = createContext({ toggleColorMode: () => {} });
+export const ColorModeContext = createContext({ toggleColorMode: () => {}, theme: {} as Theme });
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [mode, setMode] = React.useState<PaletteMode>("dark");
+  const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+  
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
@@ -19,11 +22,11 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
           prevMode === "light" ? "dark" : "light"
         );
       },
+      theme: theme
     }),
-    []
+    [theme]
   );
 
-  const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
   useEffect(() => {
     const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
@@ -38,7 +41,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <Provider theme={theme}>
-        <Box padding={0} minHeight={"100vh"} flex={1} bgcolor={theme.palette.background.default} >
+        <Box padding={0} display="flex" minHeight={"100vh"} flex={1} bgcolor={theme.palette.background.default} >
           {children}
         </Box>
       </Provider>
