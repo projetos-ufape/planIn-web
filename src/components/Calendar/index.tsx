@@ -24,7 +24,6 @@ export function Calendar() {
           { title: 'Product Meeting', startDate: '2024-08-05T10:30', endDate: '2024-08-05T11:30', bg: "#80f", description: "Um texto bonito de descrição da atividade" },
           { title: 'Send Territory Sales Breakdown', startDate: '2024-08-05T12:35', bg: "#F58" },
         ]}
-        
         >
         <ViewState
           currentDate={date}
