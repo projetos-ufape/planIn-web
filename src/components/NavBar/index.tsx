@@ -1,6 +1,7 @@
-import { AccountCircle, KeyboardArrowDown, NotificationsNone, Search } from "@mui/icons-material";
-import { Badge, Box, IconButton, InputBase, useTheme } from "@mui/material";
+import { AccountCircle, KeyboardArrowDown, Search } from "@mui/icons-material";
+import { Box, IconButton, InputBase, useTheme } from "@mui/material";
 import { Menu } from "./Menu";
+import { Popover } from "./Popover";
 
 export function NavBar() {
 
@@ -21,11 +22,7 @@ export function NavBar() {
         </IconButton>
       </Box>
       <Box display="flex" alignItems="center" justifyItems="center" gap={1}>
-      <IconButton aria-label="cart">
-        <Badge color="secondary" variant="dot">
-          <NotificationsNone /> 
-        </Badge>
-      </IconButton>
+      <Popover />
       <Box display="flex" alignItems="center" justifyItems="center" gap={0.25}>
         <AccountCircle color="secondary" />
         <IconButton size="small" >
