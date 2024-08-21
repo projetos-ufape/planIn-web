@@ -15,7 +15,7 @@ export function Menu() {
   };
 
   return (
-    <div>
+    <>
       <Button
         variant="contained"
         startIcon={<Add />}
@@ -47,6 +47,6 @@ export function Menu() {
         <MenuItem onClick={handleClose}>Tarefa</MenuItem>
         <MenuItem onClick={handleClose}>Meta</MenuItem>
       </MenuMui>
-    </div>
+    </>
   );
 }
