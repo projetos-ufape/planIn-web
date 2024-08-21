@@ -4,7 +4,6 @@ import { useState } from "react";
 import { FONT } from "../../utils/theme";
 
 export function Menu() {
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
