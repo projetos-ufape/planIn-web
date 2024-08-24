@@ -4,6 +4,7 @@ import { Calendar } from "../components/Calendar";
 import { TabPanel } from "../components/Tabs/TabPanel";
 import { useState } from "react";
 import { NavBar } from "../components/NavBar";
+import { Charts } from "../components/Charts";
 
 export function Home() {
 
@@ -19,7 +20,7 @@ export function Home() {
       <Container>
         <Tabs currentTab={currentTab} handleChangeTab={handleChangeTab}>
           <TabPanel current={currentTab} value="dashboard">
-            <Box bgcolor="#f00" width={100} height={100}></Box>
+            <Charts />
           </TabPanel>
           <TabPanel current={currentTab} value="calendar">
             <Container>

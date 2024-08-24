@@ -129,7 +129,7 @@ export const FONT = {
     },
     sm: {
       size: 14,
-      lineHeigt: 20,
+      lineHeight: 20,
       letter: 0.1,
       weight: 500,
     },

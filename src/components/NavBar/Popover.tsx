@@ -60,15 +60,15 @@ export function Popover() {
         }}
       >
         <Box border={1} borderColor={palette.secondary.dark} borderRadius={2}>
-          {notifications.map((n) => {
+          {notifications.map((n, index) => {
             return (
-              <>
-                <Notification data={n} />
+              <Box key={index} >
+                <Notification data={n}/>
                 <Divider
                   variant="fullWidth"
                   sx={{ borderColor: palette.secondary.dark }}
                 />
-              </>
+              </Box>
             );
           })}
           <Box

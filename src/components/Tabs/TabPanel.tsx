@@ -8,7 +8,7 @@ type TabPanelProps = {
 }
 
 export function TabPanel(props: TabPanelProps) {
-  const { children, current, value, ...other } = props;
+  const { children, current, value } = props;
 
   return (
     <Box
@@ -16,7 +16,6 @@ export function TabPanel(props: TabPanelProps) {
       hidden={current !== value}
       id={`full-width-tabpanel-${value}`}
       aria-labelledby={`full-width-tab-${value}`}
-      {...other}
     >
       {current === value && (
         <Box padding={3}>
