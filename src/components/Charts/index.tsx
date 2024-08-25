@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import { ContainerChart } from "./ContainerChart";
 import { PieChart } from "./PieChart";
@@ -13,78 +13,97 @@ import { LineChart } from "./LineChart";
 export function Charts() {
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [pieData, setPieData] = useState<ChartDataProps[]>([
-    { value: 10, label: "Atingidas", color: "#B2DF8A" },
-    {
-      value: 15,
-      label: "Parc. Atingidas",
-      color: "#C6B063",
-    },
-    {
-      value: 20,
-      label: "Não Atingidas",
-      color: "#DE7871",
-    },
-  ]);
+  const [pieData, setPieData] = useState<ChartDataProps[]>([]);
 
-  const [shiftBarChartData, setShiftBarChartData] = useState<BarChartDataProps>(
-    {
-      series: [
-        {
-          values: [4, 3, 5, 7, 2],
-          label: "Matutino",
-          color: "#A6CEE3",
-        },
-        {
-          values: [1, 6, 3, 6, 5],
-          label: "Vespertino",
-          color: "#1F78B4",
-        },
-        {
-          values: [2, 5, 6, 4, 8],
-          label: "Noturno",
-          color: "#B2DF8A",
-        },
-      ],
-      xAxis: ["group A", "group B", "group C"],
-    }
-  );
+  const [shiftBarChartData, setShiftBarChartData] = useState<BarChartDataProps>({series: [], xAxis: []});
 
-  const [goalsBarChartData, setGoalsBarChartData] = useState<BarChartDataProps>(
-    {
-      series: [
-        {
-          values: [4, 3, 5, 7, 2],
-          label: "Trabalho",
-          color: "#89251F",
-        },
-        {
-          values: [1, 6, 3, 6, 5],
-          label: "Faculdade",
-          color: "#895F1F",
-        },
-        {
-          values: [2, 5, 6, 4, 8],
-          label: "Pessoal",
-          color: "#68428E",
-        },
-        {
-          values: [6, 4, 3, 5, 7],
-          label: "Projeto individual",
-          color: "#1F8970",
-        },
-      ],
-      xAxis: ["group A", "group B", "group C", "group D", "group E"],
-    }
+  const [goalsBarChartData, setGoalsBarChartData] = useState<BarChartDataProps>({series: [], xAxis: []}
   );
 
   const [lineChartData, setLineChartData] = useState<LineChartDataProps>({
     series: {
-      values: [2, 5.5, 2, 8.5, 1.5, 5],
-      label: "Metas concluídas",
+      values: [],
+      label: "",
     },
-    xAxis: [1, 2, 3, 4, 5, 6],
+    xAxis: [],
   });
+
+  useEffect(() => {
+    //TODO: GET DASHBOARD DATA
+    
+    setLoading(true);
+    setTimeout(() => {
+
+      setLineChartData({
+        series: {
+          values: [2, 5.5, 2, 8.5, 1.5, 5],
+          label: "Metas concluídas",
+        },
+        xAxis: [1, 2, 3, 4, 5, 6],
+      });
+      setShiftBarChartData({
+        series: [
+          {
+            values: [4, 3, 5, 7, 2],
+            label: "Matutino",
+            color: "#A6CEE3",
+          },
+          {
+            values: [1, 6, 3, 6, 5],
+            label: "Vespertino",
+            color: "#1F78B4",
+          },
+          {
+            values: [2, 5, 6, 4, 8],
+            label: "Noturno",
+            color: "#B2DF8A",
+          },
+        ],
+        xAxis: ["group A", "group B", "group C"],
+      });
+      setGoalsBarChartData({
+        series: [
+          {
+            values: [4, 3, 5, 7, 2],
+            label: "Trabalho",
+            color: "#89251F",
+          },
+          {
+            values: [1, 6, 3, 6, 5],
+            label: "Faculdade",
+            color: "#895F1F",
+          },
+          {
+            values: [2, 5, 6, 4, 8],
+            label: "Pessoal",
+            color: "#68428E",
+          },
+          {
+            values: [6, 4, 3, 5, 7],
+            label: "Projeto individual",
+            color: "#1F8970",
+          },
+        ],
+        xAxis: ["group A", "group B", "group C", "group D", "group E"],
+      });
+      setPieData([
+        { value: 10, label: "Atingidas", color: "#B2DF8A" },
+        {
+          value: 15,
+          label: "Parc. Atingidas",
+          color: "#C6B063",
+        },
+        {
+          value: 20,
+          label: "Não Atingidas",
+          color: "#DE7871",
+        },
+      ]);
+  
+      setLoading(false);
+    }, 2000)
+
+  }, [])
 
   return (
     <Grid container spacing={2}>

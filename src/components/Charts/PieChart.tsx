@@ -45,7 +45,6 @@ export function PieChart({ data, loading }: PieChartProps) {
             root: "",
             series: "",
           },
-          // padding: -36
         },
       }}
     />
