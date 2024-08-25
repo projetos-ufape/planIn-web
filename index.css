@@ -1,3 +1,25 @@
 body {
   margin: 0;
 }
+
+:root {
+  --fc-border-color: #534342
+}
+
+.MainLayout-stickyElement {
+  background: transparent
+}
+
+::-webkit-scrollbar {
+  width: 12px;               
+}
+
+::-webkit-scrollbar-track {
+  background: #857371;        
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #E7BDB9;    
+  border-radius: 20px;       
+  border: 3px solid #857371;  
+}
