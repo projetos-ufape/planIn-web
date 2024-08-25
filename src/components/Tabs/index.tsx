@@ -1,4 +1,4 @@
-import { Tabs as TabsMui, Tab } from "@mui/material";
+import { Tabs as TabsMui, Tab, Divider } from "@mui/material";
 
 type TabsProps = {
   children: React.ReactNode;
@@ -17,6 +17,7 @@ export function Tabs({ children, currentTab, handleChangeTab }: TabsProps) {
         <Tab value="calendar" label="Calendário" />
         <Tab value="goals" label="Metas" />
       </TabsMui>
+      <Divider />
       {children}
     </>
   );

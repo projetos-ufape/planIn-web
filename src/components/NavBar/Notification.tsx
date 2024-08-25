@@ -12,7 +12,6 @@ type Props = {
   data: NotificationProps;
 };
 
-//TODO: Notification type
 export function Notification({ data }: Props) {
   const { palette } = useTheme();
 
