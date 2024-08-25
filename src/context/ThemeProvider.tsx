@@ -31,7 +31,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
-    if( !prefersColorScheme.matches ) {
+    if( prefersColorScheme.matches ) {
       setMode("dark");
     } else {
       setMode("light");
