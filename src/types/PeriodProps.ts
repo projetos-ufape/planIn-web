@@ -1,0 +1,1 @@
+export type PeriodType = "daily" | "weekly" | "monthly" | "yearly";
