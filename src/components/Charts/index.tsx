@@ -109,13 +109,11 @@ export function Charts() {
 
       setLoading(false);
     }, 2000);
-  }, []);
-
+  }, [date, period]);
 
 
   return (
     <Box display="flex" flexDirection="column" gap={2} width="100%">
-      
       <Controls mode={period} setMode={setPeriod} date={date} setDate={setDate} />
       <Grid container spacing={2}>
         <Grid item xs={6}>
