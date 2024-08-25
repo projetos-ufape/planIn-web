@@ -1,13 +1,15 @@
 import { Box, Paper, Typography, useTheme } from "@mui/material";
 import { ReactNode } from "react";
 import { FONT } from "../../utils/theme";
+import { Loading } from "../Loading";
 
 type Props = {
   title: string;
   children: ReactNode;
+  loading: boolean;
 };
 
-export function ContainerChart({ title, children }: Props) {
+export function ContainerChart({ title, children, loading }: Props) {
   const { palette } = useTheme();
 
   return (
@@ -27,7 +29,9 @@ export function ContainerChart({ title, children }: Props) {
         >
           {title}
         </Typography>
-        {children}
+        {
+          loading ? <Loading /> : children
+        }
       </Box>
     </Paper>
   );

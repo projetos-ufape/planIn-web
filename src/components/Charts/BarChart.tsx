@@ -4,10 +4,9 @@ import { BarChartDataProps } from "../../types/ChartProps";
 
 type BarChartProps = {
   data: BarChartDataProps;
-  loading: boolean;
 };
 
-export function BarChart({ data, loading }: BarChartProps) {
+export function BarChart({ data }: BarChartProps) {
   return (
     <BarChartMui
       xAxis={[
@@ -23,7 +22,6 @@ export function BarChart({ data, loading }: BarChartProps) {
           highlightScope: { highlighted: "series", faded: "global" },
         };
       })}
-      loading={loading}
       slotProps={{
         legend: {
           direction: "row",

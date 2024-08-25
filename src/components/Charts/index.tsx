@@ -119,23 +119,23 @@ export function Charts() {
       <Controls mode={period} setMode={setPeriod} date={date} setDate={setDate} />
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <ContainerChart title="Conclusão de metas por dia">
-            <LineChart loading={loading} data={lineChartData} />
+          <ContainerChart title="Conclusão de metas por dia" loading={loading}>
+            <LineChart data={lineChartData} />
           </ContainerChart>
         </Grid>
         <Grid item xs={6}>
-          <ContainerChart title="Conclusão de metas por turno">
-            <BarChart data={shiftBarChartData} loading={loading} />
+          <ContainerChart title="Conclusão de metas por turno" loading={loading}>
+            <BarChart data={shiftBarChartData} />
           </ContainerChart>
         </Grid>
         <Grid item xs={4}>
-          <ContainerChart title="Levantamento geral">
-            <PieChart data={pieData} loading={loading} />
+          <ContainerChart title="Levantamento geral" loading={loading}>
+            <PieChart data={pieData} />
           </ContainerChart>
         </Grid>
         <Grid item xs={8}>
-          <ContainerChart title="Conclusão de metas por categoria">
-            <BarChart data={goalsBarChartData} loading={loading} />
+          <ContainerChart title="Conclusão de metas por categoria" loading={loading}>
+            <BarChart data={goalsBarChartData} />
           </ContainerChart>
         </Grid>
       </Grid>

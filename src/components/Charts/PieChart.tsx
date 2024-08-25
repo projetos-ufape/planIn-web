@@ -4,10 +4,9 @@ import { ChartDataProps } from "../../types/ChartProps";
 
 type PieChartProps = {
   data: ChartDataProps[];
-  loading: boolean;
 };
 
-export function PieChart({ data, loading }: PieChartProps) {
+export function PieChart({ data }: PieChartProps) {
   return (
     <PieChartMui
       series={[
@@ -24,7 +23,6 @@ export function PieChart({ data, loading }: PieChartProps) {
         },
       ]}
       margin={{ right: 140 }}
-      loading={loading}
       slotProps={{
         pieArc: {
           overflow: "hidden",

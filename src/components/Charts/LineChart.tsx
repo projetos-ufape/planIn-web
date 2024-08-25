@@ -5,10 +5,9 @@ import { LineChartDataProps } from "../../types/ChartProps";
 
 type LineChartProps = {
   data: LineChartDataProps;
-  loading: boolean;
 };
 
-export function LineChart({ data, loading }: LineChartProps) {
+export function LineChart({ data }: LineChartProps) {
   const { palette } = useTheme();
 
   return (
@@ -21,7 +20,6 @@ export function LineChart({ data, loading }: LineChartProps) {
           color: palette.primary.main,
         },
       ]}
-      loading={loading}
       slotProps={{
         legend: {
           direction: "row",
