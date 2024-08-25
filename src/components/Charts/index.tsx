@@ -14,11 +14,13 @@ import { BarChart } from "./BarChart";
 import { LineChart } from "./LineChart";
 import { Controls } from "../Controls";
 import { PeriodType } from "../../types/PeriodProps";
+import { ModeType } from "../../types/ModeProps";
 
 export function Charts() {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [period, setPeriod] = useState<Omit<PeriodType, 'daily'>>("weekly");
+  const [mode, setMode] = useState<ModeType>("goals");
   const [date, setDate] = useState(new Date());
 
   const [pieData, setPieData] = useState<ChartDataProps[]>([]);
@@ -44,7 +46,7 @@ export function Charts() {
       setLineChartData({
         series: {
           values: [2, 5.5, 2, 8.5, 1.5, 5],
-          label: "Metas concluídas",
+          label: "Tarefas concluídas",
         },
         xAxis: [1, 2, 3, 4, 5, 6],
       });
@@ -108,21 +110,24 @@ export function Charts() {
       ]);
 
       setLoading(false);
-    }, 2000);
+    }, 1500);
   }, [date, period]);
 
+  const getModeText = () => {
+    return mode === "goals" ? "metas" : "tarefas"
+  }
 
   return (
     <Box display="flex" flexDirection="column" gap={2} width="100%">
-      <Controls mode={period} setMode={setPeriod} date={date} setDate={setDate} />
+      <Controls period={period} setPeriod={setPeriod} date={date} setDate={setDate} mode={mode} setMode={setMode} />
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <ContainerChart title="Conclusão de metas por dia" loading={loading}>
+          <ContainerChart title={`Conclusão de ${getModeText()} por dia`} loading={loading}>
             <LineChart data={lineChartData} />
           </ContainerChart>
         </Grid>
         <Grid item xs={6}>
-          <ContainerChart title="Conclusão de metas por turno" loading={loading}>
+          <ContainerChart title={`Conclusão de ${getModeText()} por turno`} loading={loading}>
             <BarChart data={shiftBarChartData} />
           </ContainerChart>
         </Grid>
@@ -132,7 +137,7 @@ export function Charts() {
           </ContainerChart>
         </Grid>
         <Grid item xs={8}>
-          <ContainerChart title="Conclusão de metas por categoria" loading={loading}>
+          <ContainerChart title={`Conclusão de ${getModeText()} por categoria`} loading={loading}>
             <BarChart data={goalsBarChartData} />
           </ContainerChart>
         </Grid>

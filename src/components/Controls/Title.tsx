@@ -7,10 +7,10 @@ import { PeriodType } from "../../types/PeriodProps";
 
 type TitleProps = {
   date: Date;
-  mode: Omit<PeriodType, "daily">;
+  period: Omit<PeriodType, "daily">;
 };
 
-export function Title({ date, mode }: TitleProps) {
+export function Title({ date, period }: TitleProps) {
   dayjs.locale("pt-br");
   const { palette } = useTheme();
 
@@ -22,7 +22,7 @@ export function Title({ date, mode }: TitleProps) {
   };
 
   useEffect(() => {
-    switch (mode) {
+    switch (period) {
       case "weekly": {
         const startOfWeek = dayjs(date).startOf("week");
         const endOfWeek = dayjs(date).endOf("week");
@@ -49,14 +49,14 @@ export function Title({ date, mode }: TitleProps) {
         break;
       }
     }
-  }, [date, mode]);
+  }, [date, period]);
 
   return (
     <Box display="flex" gap={1}>
       <Typography fontSize={FONT.title.lg.size} color={palette.text.primary}>
         {formattedDate}
       </Typography>
-      {mode !== "yearly" && (
+      {period !== "yearly" && (
         <Typography
           fontSize={FONT.title.lg.size}
           color={palette.text.secondary}

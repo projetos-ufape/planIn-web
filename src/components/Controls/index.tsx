@@ -10,30 +10,35 @@ import {
 import { Title } from "./Title";
 import { PeriodType } from "../../types/PeriodProps";
 import { Navigate } from "./Navigate";
+import { Mode } from "./Mode";
+import { ModeType } from "../../types/ModeProps";
 
 type ControlsProps = {
-  mode: Omit<PeriodType, "daily">;
-  setMode: (value: Omit<PeriodType, "daily">) => void;
+  period: Omit<PeriodType, "daily">;
+  setPeriod: (value: Omit<PeriodType, "daily">) => void;
+  mode: ModeType;
+  setMode: (mode: ModeType) => void;
   date: Date;
   setDate: (value: Date) => void;
 };
 
-export function Controls({ mode, setMode, date, setDate }: ControlsProps) {
+export function Controls({ period, setPeriod, date, setDate, mode, setMode }: ControlsProps) {
   const { palette } = useTheme();
 
   const handleChange = (event: SelectChangeEvent) => {
-    setMode(event.target.value);
+    setPeriod(event.target.value);
   };
 
   return (
     <FormControl sx={{ minWidth: 120 }} size="small">
+      <Box display="flex" justifyContent="space-between">
       <Box display="flex" flexDirection="row" gap={3}>
-        <Title date={date} mode={mode} />
+        <Title date={date} period={period} />
 
-        <Navigate date={date} setDate={setDate} mode={mode} />
+        <Navigate date={date} setDate={setDate} period={period} />
 
         <Select
-          value={mode as string}
+          value={period as string}
           variant="outlined"
           onChange={handleChange}
           sx={{
@@ -68,6 +73,8 @@ export function Controls({ mode, setMode, date, setDate }: ControlsProps) {
           <MenuItem value="monthly">Mês</MenuItem>
           <MenuItem value="yearly">Ano</MenuItem>
         </Select>
+      </Box>
+          <Mode mode={mode} setMode={setMode} />
       </Box>
     </FormControl>
   );

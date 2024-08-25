@@ -6,13 +6,13 @@ import { PeriodType } from "../../types/PeriodProps";
 type NavigateProps = {
   date: Date;
   setDate: (date: Date) => void;
-  mode: Omit<PeriodType, "daily">;
+  period: Omit<PeriodType, "daily">;
 };
 
-export function Navigate({ date, setDate, mode }: NavigateProps) {
+export function Navigate({ date, setDate, period }: NavigateProps) {
   const handleBackDate = () => {
     let newDate;
-    switch (mode) {
+    switch (period) {
       case "weekly":
         newDate = dayjs(date).subtract(1, "week").toDate();
         break;
@@ -30,7 +30,7 @@ export function Navigate({ date, setDate, mode }: NavigateProps) {
 
   const handleForwardDate = () => {
     let newDate;
-    switch (mode) {
+    switch (period) {
       case "weekly":
         newDate = dayjs(date).add(1, "week").toDate();
         break;
