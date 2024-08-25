@@ -7,7 +7,7 @@ export const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
       ? {
           background: {
             default: "#FFF8F7",
-            paper: "#"
+            paper: "#FFEDEB"
           },
           primary: {
             main: "#904A46",
