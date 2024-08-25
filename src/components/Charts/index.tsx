@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { Grid } from "@mui/material";
+import {
+  Box,
+  Grid,
+} from "@mui/material";
 import { ContainerChart } from "./ContainerChart";
 import { PieChart } from "./PieChart";
 import {
@@ -9,17 +12,22 @@ import {
 } from "../../types/ChartProps";
 import { BarChart } from "./BarChart";
 import { LineChart } from "./LineChart";
+import { Controls } from "../Controls";
+import { PeriodType } from "../../types/PeriodProps";
 
 export function Charts() {
+
   const [loading, setLoading] = useState<boolean>(false);
+  const [period, setPeriod] = useState<Omit<PeriodType, 'daily'>>("weekly");
+  const [date, setDate] = useState(new Date());
 
   const [pieData, setPieData] = useState<ChartDataProps[]>([]);
-
-  const [shiftBarChartData, setShiftBarChartData] = useState<BarChartDataProps>({series: [], xAxis: []});
-
-  const [goalsBarChartData, setGoalsBarChartData] = useState<BarChartDataProps>({series: [], xAxis: []}
+  const [shiftBarChartData, setShiftBarChartData] = useState<BarChartDataProps>(
+    { series: [], xAxis: [] }
   );
-
+  const [goalsBarChartData, setGoalsBarChartData] = useState<BarChartDataProps>(
+    { series: [], xAxis: [] }
+  );
   const [lineChartData, setLineChartData] = useState<LineChartDataProps>({
     series: {
       values: [],
@@ -30,10 +38,9 @@ export function Charts() {
 
   useEffect(() => {
     //TODO: GET DASHBOARD DATA
-    
+
     setLoading(true);
     setTimeout(() => {
-
       setLineChartData({
         series: {
           values: [2, 5.5, 2, 8.5, 1.5, 5],
@@ -99,34 +106,39 @@ export function Charts() {
           color: "#DE7871",
         },
       ]);
-  
-      setLoading(false);
-    }, 2000)
 
-  }, [])
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={6}>
-        <ContainerChart title="Conclusão de metas por dia">
-          <LineChart loading={loading} data={lineChartData} />
-        </ContainerChart>
+    <Box display="flex" flexDirection="column" gap={2} width="100%">
+      
+      <Controls mode={period} setMode={setPeriod} date={date} setDate={setDate} />
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <ContainerChart title="Conclusão de metas por dia">
+            <LineChart loading={loading} data={lineChartData} />
+          </ContainerChart>
+        </Grid>
+        <Grid item xs={6}>
+          <ContainerChart title="Conclusão de metas por turno">
+            <BarChart data={shiftBarChartData} loading={loading} />
+          </ContainerChart>
+        </Grid>
+        <Grid item xs={4}>
+          <ContainerChart title="Levantamento geral">
+            <PieChart data={pieData} loading={loading} />
+          </ContainerChart>
+        </Grid>
+        <Grid item xs={8}>
+          <ContainerChart title="Conclusão de metas por categoria">
+            <BarChart data={goalsBarChartData} loading={loading} />
+          </ContainerChart>
+        </Grid>
       </Grid>
-      <Grid item xs={6}>
-        <ContainerChart title="Conclusão de metas por turno">
-          <BarChart data={shiftBarChartData} loading={loading} />
-        </ContainerChart>
-      </Grid>
-      <Grid item xs={4}>
-        <ContainerChart title="Levantamento geral">
-          <PieChart data={pieData} loading={loading} />
-        </ContainerChart>
-      </Grid>
-      <Grid item xs={8}>
-        <ContainerChart title="Conclusão de metas por categoria">
-          <BarChart data={goalsBarChartData} loading={loading} />
-        </ContainerChart>
-      </Grid>
-    </Grid>
+    </Box>
   );
 }
