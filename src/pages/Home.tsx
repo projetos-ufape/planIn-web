@@ -17,7 +17,7 @@ export function Home() {
   return (
     <Box flexDirection={"column"} width={"100%"} alignItems={"center"}>
       <NavBar />
-      <Container>
+      <Container sx={{paddingX: 0}}>
         <Tabs currentTab={currentTab} handleChangeTab={handleChangeTab}>
           <TabPanel current={currentTab} value="dashboard">
             <Charts />
