@@ -111,7 +111,7 @@ export function Charts() {
 
       setLoading(false);
     }, 1500);
-  }, [date, period]);
+  }, [date, period, mode]);
 
   const getModeText = () => {
     return mode === "goals" ? "metas" : "tarefas"
