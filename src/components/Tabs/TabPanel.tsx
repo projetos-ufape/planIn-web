@@ -18,7 +18,7 @@ export function TabPanel(props: TabPanelProps) {
       aria-labelledby={`full-width-tab-${value}`}
     >
       {current === value && (
-        <Box padding={3}>
+        <Box paddingY={3}>
           {children}
         </Box>
       )}
