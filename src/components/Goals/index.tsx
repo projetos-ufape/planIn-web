@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 import { Column } from "./Column";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GoalsSummaryProps } from "../../types/GoalsProps";
 
 export function Goals() {
@@ -116,21 +116,28 @@ export function Goals() {
       }
     },
   ],});
-  
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+  }, []);  
 
   return (
-    <Grid container width="100%" spacing={3}>
+    <Grid container height="100%" spacing={3}>
       <Grid item xs={3}>
-        <Column label="Em aberto" data={goals.open} />
+        <Column loading={loading} label="Em aberto" data={goals.open} />
       </Grid>
       <Grid item xs={3}>
-        <Column label="Não atingidas" data={goals.notReached} />
+        <Column loading={loading} label="Não atingidas" data={goals.notReached} />
       </Grid>
       <Grid item xs={3}>
-        <Column label="Parcialmente atingidas" data={goals.partiallyReached} />
+        <Column loading={loading} label="Parcialmente atingidas" data={goals.partiallyReached} />
       </Grid>
       <Grid item xs={3}>
-        <Column label="Atingidas" data={goals.reached} />
+        <Column loading={loading} label="Atingidas" data={goals.reached} />
       </Grid>
     </Grid>
   )
