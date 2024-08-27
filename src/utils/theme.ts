@@ -7,6 +7,7 @@ export const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
       ? {
           background: {
             default: "#FFF8F7",
+            paper: "#FFEDEB"
           },
           primary: {
             main: "#904A46",
@@ -24,6 +25,7 @@ export const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
       : {
           background: {
             default: "#1A1111",
+            paper: "#382E2D"
           },
           primary: {
             main: "#FFB3AE",
@@ -128,7 +130,7 @@ export const FONT = {
     },
     sm: {
       size: 14,
-      lineHeigt: 20,
+      lineHeight: 20,
       letter: 0.1,
       weight: 500,
     },

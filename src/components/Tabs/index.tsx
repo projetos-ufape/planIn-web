@@ -1,19 +1,24 @@
-import { Tabs as TabsMui, Tab } from "@mui/material";
-import { useState } from "react";
+import { Tabs as TabsMui, Tab, Divider } from "@mui/material";
 
+type TabsProps = {
+  children: React.ReactNode;
+  currentTab: string;
+  handleChangeTab: (
+    event: React.SyntheticEvent,
+    newTab: "goals" | "calendar" | "dashboard"
+  ) => void;
+};
 
-export function Tabs(){
-
-  const [currentTab, setCurrentTab] = useState<"tasks" | "calendar">("tasks");
-
-  const handleChange = (event: React.SyntheticEvent, tab: "tasks" | "calendar") => {
-    setCurrentTab(tab);
-  };
-
+export function Tabs({ children, currentTab, handleChangeTab }: TabsProps) {
   return (
-    <TabsMui value={currentTab} onChange={handleChange}>
-      <Tab value="tasks" label="Tasks" />
-      <Tab value="calendar" label="Calendário" />
-    </TabsMui>
-  )
+    <>
+      <TabsMui value={currentTab} onChange={handleChangeTab}>
+        <Tab value="dashboard" label="Dashboard" />
+        <Tab value="calendar" label="Calendário" />
+        <Tab value="goals" label="Metas" />
+      </TabsMui>
+      <Divider />
+      {children}
+    </>
+  );
 }
