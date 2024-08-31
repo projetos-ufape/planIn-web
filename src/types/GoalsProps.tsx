@@ -5,7 +5,9 @@ export type GoalProps = {
   category: {
     label: string,
     color: string
-  }
+  },
+  position: number,
+  columnId: string
 }
 
 export type GoalsSummaryProps = {
