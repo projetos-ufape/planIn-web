@@ -8,8 +8,8 @@ export function RouterProvider() {
   return (
     <BrowserRouter basename="/">
       <Routes>
-        <Route caseSensitive path="/home" element={<Home/>}/>
-        <Route caseSensitive path="/" element={<Login />} />
+        <Route caseSensitive  path="/" element={<Home/>}/>
+        <Route caseSensitive path="/login" element={<Login />} />
         <Route caseSensitive path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
