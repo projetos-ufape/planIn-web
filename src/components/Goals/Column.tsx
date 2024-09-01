@@ -1,17 +1,19 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { Card } from "./Card";
 import { FONT } from "../../utils/theme";
-import { GoalProps } from "../../types/GoalsProps";
+import { ColumnType, GoalProps } from "../../types/GoalsProps";
 import { Loading } from "../Loading";
 import { DropZone } from "./DropZone";
+import useGoals from "../../hooks/useGoals";
 
 type ColumnProps = {
   label: string;
+  columnId: ColumnType;
   data: GoalProps[];
-  loading: boolean;
 };
 
-export function Column({ label, data, loading }: ColumnProps) {
+export function Column({ label, columnId, data }: ColumnProps) {
+  const { isGoalsLoading } = useGoals();
   const { palette } = useTheme();
 
   const LoadingComponent = () => {
@@ -39,7 +41,7 @@ export function Column({ label, data, loading }: ColumnProps) {
         {label}
       </Typography>
       <Box display="flex" flexDirection="column" flex="auto" minHeight="100%">
-        {loading ? (
+        {isGoalsLoading ? (
           <LoadingComponent />
         ) : (
           <>
@@ -47,11 +49,11 @@ export function Column({ label, data, loading }: ColumnProps) {
               return (
                 <Box key={g.id} display="flex" flexDirection="column">
                   {index === 0 && (
-                    <DropZone fatherId={g.id} position={g.position - 1} />
+                    <DropZone fatherId={g.id} columnId={columnId} position={index - 1} />
                   )}
                   <Card data={g} />
                   {index !== data.length - 1 && (
-                    <DropZone fatherId={g.id} position={g.position - 1} />
+                    <DropZone fatherId={g.id} columnId={columnId} position={index + 1} />
                   )}
                 </Box>
               );
@@ -59,8 +61,9 @@ export function Column({ label, data, loading }: ColumnProps) {
           </>
         )}
         <DropZone
-          position={data.at(data.length - 1)?.position || 0}
+          position={data?.length + 1 || 0}
           flexGrow={1}
+          columnId={columnId}
         />
       </Box>
     </Box>

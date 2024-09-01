@@ -4,21 +4,25 @@ import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element
 import { Tag } from "../Tag";
 import { COLORS, FONT } from "../../utils/theme";
 import useColorTheme from "../../hooks/useColorTheme";
-import { GoalProps } from "../../types/GoalsProps";
+import { ColumnType, GoalProps } from "../../types/GoalsProps";
+import useGoals from "../../hooks/useGoals";
 
 export function DropZone({
   position,
   fatherId,
+  columnId,
   height = 8,
   flexGrow,
 }: {
-  fatherId?: number,
+  fatherId?: number;
+  columnId: ColumnType;
   position: number;
   height?: number | string;
   flexGrow?: number;
 }) {
   const { palette } = useTheme();
   const { mode } = useColorTheme();
+  const { moveGoal } = useGoals();
   const ref = useRef(null);
 
   const [isOver, setIsOver] = useState(false);
@@ -30,14 +34,13 @@ export function DropZone({
 
     return dropTargetForElements({
       element,
-      onDrag({source}) {
+      onDrag({ source }) {
         if (source.data.id != fatherId) {
-
           setIsOver(true);
           setData(source.data as GoalProps);
         }
       },
-      onDragEnter({source}) {
+      onDragEnter({ source }) {
         if (source.data.id != fatherId) {
           setIsOver(true);
           setData(source.data as GoalProps);
@@ -46,14 +49,15 @@ export function DropZone({
       onDragLeave() {
         setIsOver(false);
       },
-      onDrop() {
+      onDrop({ source }) {
         setIsOver(false);
+        moveGoal(source.data as GoalProps, position, columnId);
       },
     });
   }, [data, fatherId, position]);
 
   return (
-    <Box ref={ref} flexGrow={flexGrow} display="flex" flexDirection="column" >
+    <Box ref={ref} flexGrow={flexGrow} display="flex" flexDirection="column">
       {isOver ? (
         <Box
           bgcolor={COLORS[mode].background.secondary}
@@ -83,7 +87,10 @@ export function DropZone({
             justifyContent="space-between"
             alignItems="center"
           >
-            <Tag label={data?.category.label || ""} color={data?.category.color || ""} />
+            <Tag
+              label={data?.category.label || ""}
+              color={data?.category.color || ""}
+            />
             <Typography
               fontSize={10}
               letterSpacing={FONT.body.sm.letter}

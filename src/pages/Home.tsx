@@ -7,6 +7,7 @@ import { NavBar } from "../components/NavBar";
 import { Charts } from "../components/Charts";
 import { FONT } from "../utils/theme";
 import { Goals } from "../components/Goals";
+import { GoalsProvider } from "../context/GoalsProvider";
 
 export function Home() {
   const { palette } = useTheme();
@@ -37,7 +38,9 @@ export function Home() {
             </Container>
           </TabPanel>
           <TabPanel current={currentTab} value="goals">
-            <Goals />
+            <GoalsProvider>
+              <Goals />
+            </GoalsProvider>
           </TabPanel>
         </Tabs>
       </Container>
