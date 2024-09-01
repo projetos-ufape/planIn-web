@@ -1,12 +1,13 @@
-import { Box, Typography, TextField } from "@mui/material";
+import { Box, Typography, TextField, useTheme } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import React from "react";
 import { useState } from "react";
-import { COLORS, FONT } from "../utils/theme";
+import { FONT } from "../utils/theme";
 import LogoHeader from "../components/LogoHeader/LogoHeader";
 import LoginBtn from "../components/LoginBtn";
 
 const Register = () => {
+  const { palette } = useTheme();
   const location = useLocation();
   const emailFromLogin = location.state.email;
   const [password, setPassword] = useState("");
@@ -20,9 +21,6 @@ const Register = () => {
       <Box
         minHeight="100vh"
         minWidth="100vw"
-        sx={{
-          backgroundColor: COLORS.light.background,
-        }}
       >
         <LogoHeader />
         <Box
@@ -40,7 +38,7 @@ const Register = () => {
               lineHeight={`${FONT.headline.sm.lineHeigt}px`}
               variant="h1"
               fontFamily={FONT.headline.fontFamily}
-              sx={{ color: COLORS.light.text.primary, marginBottom: "5px" }}
+              sx={{ color: palette.text.primary, marginBottom: "5px" }}
             >
               Novo Cadastro
             </Typography>
@@ -49,7 +47,7 @@ const Register = () => {
               lineHeight={`${FONT.body.lg.lineHeight}px`}
               fontFamily={FONT.body.fontFamily}
               sx={{
-                color: COLORS.light.text.secondary,
+                color: palette.text.secondary,
                 fontWeight: 400,
                 marginTop: 0,
               }}

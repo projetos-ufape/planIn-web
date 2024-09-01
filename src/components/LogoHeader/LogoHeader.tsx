@@ -1,6 +1,9 @@
-import Logo from '../../assets/Planit.svg'
+import LogoDark from '../../assets/planit-dark.svg';
+import LogoLight from '../../assets/planit-light.svg';
 import { Box } from '@mui/material';
+import useColorTheme from '../../hooks/useColorTheme';
 const LogoHeader = () => {
+  const { mode } = useColorTheme();
   return (
     <Box
     sx={{
@@ -9,7 +12,7 @@ const LogoHeader = () => {
       width: '85vw'
     }}
     >
-      <img src={Logo} alt="logo" />
+      <img src={mode === 'light' ? LogoLight : LogoDark} alt="logo" />
     </Box>
   );
 };

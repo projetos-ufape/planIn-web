@@ -7,7 +7,7 @@ export const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
       ? {
           background: {
             default: "#FFF8F7",
-            paper: "#FFEDEB"
+            paper: "#FFEDEB",
           },
           primary: {
             main: "#904A46",
@@ -25,7 +25,7 @@ export const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
       : {
           background: {
             default: "#1A1111",
-            paper: "#382E2D"
+            paper: "#382E2D",
           },
           primary: {
             main: "#FFB3AE",
@@ -56,7 +56,12 @@ export const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
 
 export const COLORS = {
   light: {
-    background: "#FFF8F7",
+    background: {
+      default: "#FFF8F7",
+      paper: "#FFEDEB",
+      secondary: "#FCEAE8",
+      border: "#D8C2BF",
+    },
     primary: "#904A46",
     secondary: "#775654",
     text: {
@@ -65,7 +70,12 @@ export const COLORS = {
     },
   },
   dark: {
-    background: "#1A1111",
+    background: {
+      default: "#1A1111",
+      paper: "#382E2D",
+      secondary: "#271D1D",
+      border: "#534342",
+    },
     primary: "#FFB3AE",
     secondary: "#E7BDB9",
     text: {

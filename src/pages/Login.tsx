@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { TextField, Box, Typography, Link } from "@mui/material";
+import { TextField, Box, Typography, Link, useTheme } from "@mui/material";
 import LogoHeader from "../components/LogoHeader/LogoHeader";
-import { COLORS, FONT } from "../utils/theme";
+import { FONT } from "../utils/theme";
 import LoginBtn from "../components/LoginBtn";
 import { useNavigate } from "react-router-dom";
 
+
 const Login: React.FC = () => {
+  const { palette } = useTheme();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -34,9 +36,6 @@ const Login: React.FC = () => {
     <Box
       minHeight="100vh"
       minWidth="100vw"
-      sx={{
-        backgroundColor: COLORS.light.background,
-      }}
     >
       <LogoHeader />
       <Box
@@ -54,7 +53,7 @@ const Login: React.FC = () => {
             lineHeight={`${FONT.headline.sm.lineHeigt}px`}
             variant="h1"
             fontFamily={FONT.headline.fontFamily}
-            sx={{ color: COLORS.light.text.primary, marginBottom: "5px" }}
+            sx={{ color: palette.text.primary, marginBottom: "5px" }}
           >
             Seja bem-vindo(a)
           </Typography>
@@ -63,7 +62,7 @@ const Login: React.FC = () => {
             lineHeight={`${FONT.body.lg.lineHeight}px`}
             fontFamily={FONT.body.fontFamily}
             sx={{
-              color: COLORS.light.text.secondary,
+              color: palette.text.secondary,
               fontWeight: 400,
               marginTop: 0,
             }}
@@ -120,7 +119,7 @@ const Login: React.FC = () => {
                   href=""
                   sx={{
                     fontFamily: FONT.body.fontFamily,
-                    color: COLORS.light.primary,
+                    color: palette.primary.main,
                     textDecoration: "none",
                     marginTop: "5px",
                   }}
