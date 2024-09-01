@@ -1,12 +1,16 @@
-import styles from './LogoHeader.module.css'
 import Logo from '../../assets/Planit.svg'
+import { Box } from '@mui/material';
 const LogoHeader = () => {
   return (
-    <div>
-      <section className={styles.header}>
-        <img src={Logo} alt="Logo" />
-      </section>
-    </div>
+    <Box
+    sx={{
+      padding: '23px',
+      marginLeft: '70px',
+      width: '85vw'
+    }}
+    >
+      <img src={Logo} alt="logo" />
+    </Box>
   );
 };
 
