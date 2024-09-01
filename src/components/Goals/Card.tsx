@@ -5,6 +5,7 @@ import { COLORS, FONT } from "../../utils/theme";
 import useColorTheme from "../../hooks/useColorTheme";
 import { Tag } from "../Tag";
 import { GoalProps } from "../../types/GoalsProps";
+import { getDayAndMMM } from "../../utils/dateHelper";
 
 type CardProps = {
   data: GoalProps;
@@ -81,7 +82,7 @@ export function Card({ data }: CardProps) {
           fontWeight={500}
           color={palette.text.secondary}
         >
-          01 Set
+          {data.endDate ? getDayAndMMM(data.endDate) : ""}
         </Typography>
       </Box>
     </Box>

@@ -88,6 +88,7 @@ export const GoalsProvider = ({ children }: { children: ReactNode }) => {
             label: "Trabalho",
             color: "#89251F",
           },
+          endDate: new Date(),
           columnId: "open",
         },
       ],
@@ -128,6 +129,7 @@ export const GoalsProvider = ({ children }: { children: ReactNode }) => {
             label: "Trabalho",
             color: "#89251F",
           },
+          endDate: new Date(),
           columnId: "partiallyReached",
         },
         {
