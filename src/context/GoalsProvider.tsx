@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { createContext, ReactNode } from "react";
 import { ColumnType, GoalProps, GoalsSummaryProps } from "../types/GoalsProps";
+import { api } from "../service/api";
 
 export interface GoalsContextProps {
-  moveGoal: (goal: GoalProps, position: number, columnId: ColumnType) => void;
+  moveGoal: (goal: GoalProps, position: number, columnId: ColumnType) => Promise<void>;
   isGoalsLoading: boolean;
   goals: GoalsSummaryProps;
 }
@@ -21,7 +22,7 @@ export const GoalsProvider = ({ children }: { children: ReactNode }) => {
   });
   const [isGoalsLoading, setIsGoalsLoading] = useState(false);
   
-  function moveGoal(goal: GoalProps, position: number, columnId: ColumnType) {
+  async function moveGoal(goal: GoalProps, position: number, columnId: ColumnType) {
     const pos = position === -1 ? 0 : position;
     const newGoals = { ...goals };
   
@@ -33,17 +34,24 @@ export const GoalsProvider = ({ children }: { children: ReactNode }) => {
   
     setGoals(newGoals);
   
-    const body = new Map<ColumnType, number[]>();
-    body.set(goal.columnId, newGoals[goal.columnId].map(i => i.id));
-    body.set(columnId, newGoals[columnId].map(i => i.id));
-  
-    // Fazer envio para indicar nova ordem
-    console.log(body);
-    console.log(newGoals);
+    const body: Record<ColumnType, number[]> = {} as Record<ColumnType, number[]>;
+
+    if (goal.columnId !== columnId) {
+      body[goal.columnId] = newGoals[goal.columnId].map(i => i.id);
+      body[columnId] = newGoals[columnId].map(i => i.id);
+  } else {
+      body[columnId] = newGoals[columnId].map(i => i.id);
+  }
+
+    // await api.patch("goals/order", body).then(() => {}).catch(() => {});
+
   }
   
   useEffect(() => {
     setIsGoalsLoading(true);
+
+    // await api.get("goals").then(() => {}).catch(() => {}).finally(() => {});
+
     setGoals({
       open: [
         {

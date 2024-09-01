@@ -35,8 +35,7 @@ export function Card({ data }: CardProps) {
       getInitialData() {
         return data;
       },
-      onDragStart({source}) {
-        source.element.classList.add("dragging");
+      onDragStart() {
         setIsDragging(true);
       },
       onDrop() {
