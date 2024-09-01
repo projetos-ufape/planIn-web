@@ -9,7 +9,7 @@ import {
 import { createContext, ReactNode } from "react";
 import { getDesignTokens } from "../utils/theme";
 
-export const ColorModeContext = createContext({ toggleColorMode: () => {}, theme: {} as Theme });
+export const ColorModeContext = createContext({ toggleColorMode: () => {}, theme: {} as Theme, mode: "light"  as 'light' | 'dark' });
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [mode, setMode] = React.useState<PaletteMode>("dark");
@@ -22,9 +22,10 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
           prevMode === "light" ? "dark" : "light"
         );
       },
-      theme: theme
+      theme: theme,
+      mode: mode
     }),
-    [theme]
+    [mode, theme]
   );
 
 

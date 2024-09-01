@@ -14,6 +14,7 @@ export function Mode({ mode, setMode }: ModeProps) {
         variant={mode === 'goals' ? 'contained' : 'outlined'}
         sx={{
           borderRadius: 2,
+          textTransform: 'none',
         }}
         onClick={() => setMode("goals")}
       >
@@ -21,6 +22,7 @@ export function Mode({ mode, setMode }: ModeProps) {
       </Button>
       <Button variant={mode === 'tasks' ? 'contained' : 'outlined'} sx={{
           borderRadius: 2,
+          textTransform: 'none',
         }}
         onClick={() => setMode("tasks")}
       >Tarefas</Button>

@@ -6,12 +6,14 @@ import { useState } from "react";
 import { NavBar } from "../components/NavBar";
 import { Charts } from "../components/Charts";
 import { FONT } from "../utils/theme";
+import { Goals } from "../components/Goals";
+import { GoalsProvider } from "../context/GoalsProvider";
 
 export function Home() {
   const { palette } = useTheme();
   const [currentTab, setCurrentTab] = useState<
     "goals" | "calendar" | "dashboard"
-  >("dashboard");
+  >("goals");
   const handleChangeTab = (
     event: React.SyntheticEvent,
     newTab: "goals" | "calendar" | "dashboard"
@@ -36,7 +38,9 @@ export function Home() {
             </Container>
           </TabPanel>
           <TabPanel current={currentTab} value="goals">
-            <Box bgcolor="#f0f" width={100} height={100}></Box>
+            <GoalsProvider>
+              <Goals />
+            </GoalsProvider>
           </TabPanel>
         </Tabs>
       </Container>

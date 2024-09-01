@@ -12,10 +12,10 @@ type TabsProps = {
 export function Tabs({ children, currentTab, handleChangeTab }: TabsProps) {
   return (
     <>
-      <TabsMui value={currentTab} onChange={handleChangeTab}>
-        <Tab value="dashboard" label="Dashboard" />
-        <Tab value="calendar" label="Calendário" />
-        <Tab value="goals" label="Metas" />
+      <TabsMui value={currentTab} onChange={handleChangeTab} >
+        <Tab sx={{textTransform: 'none'}} value="dashboard" label="Dashboard" />
+        <Tab sx={{textTransform: 'none'}} value="calendar" label="Calendário" />
+        <Tab sx={{textTransform: 'none'}} value="goals" label="Metas" />
       </TabsMui>
       <Divider />
       {children}
