@@ -4,11 +4,13 @@ import LogoHeader from "../components/LogoHeader/LogoHeader";
 import { FONT } from "../utils/theme";
 import LoginBtn from "../components/LoginBtn";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 
 const Login: React.FC = () => {
   const { palette } = useTheme();
   const navigate = useNavigate();
+  const { login, isLoading } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,14 +25,17 @@ const Login: React.FC = () => {
     setShowPassword(true);
   };
 
-  const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleLoginSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
-    setEmail("");
-    setPassword("");
-    setShowPassword(false);
-  };
+
+    if (email === "" || password === "") return;
+
+    const success = await login(email.trim(), password.trim());
+
+    if (success) {
+      navigate("/");
+    }
+  }
 
   return (
     <Box
