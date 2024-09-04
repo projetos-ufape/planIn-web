@@ -4,33 +4,44 @@ import LogoHeader from "../components/LogoHeader/LogoHeader";
 import { FONT } from "../utils/theme";
 import LoginBtn from "../components/LoginBtn";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 
 const Login: React.FC = () => {
   const { palette } = useTheme();
   const navigate = useNavigate();
+  const { login, userExists, isLoading } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [emailRegistered] = useState(true);
 
-  const handleEmailSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleEmailSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!emailRegistered) {
+    if(isLoading) return;
+    if(email.trim() === "") return;
+
+    const exists = await userExists(email.trim());
+
+    if (!exists) {
       navigate("/register", { state: { email } });
+    } else {
+      setShowPassword(true);
     }
-    setShowPassword(true);
-  };
+  }
 
-  const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleLoginSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
-    setEmail("");
-    setPassword("");
-    setShowPassword(false);
-  };
+    if(isLoading) return;
+
+    if (email === "" || password === "") return;
+
+    const success = await login(email.trim(), password.trim());
+
+    if (success) {
+      navigate("/");
+    }
+  }
 
   return (
     <Box
@@ -128,7 +139,7 @@ const Login: React.FC = () => {
                 </Link>
               </Box>
             )}
-            <LoginBtn>{showPassword ? "Entrar" : "Continuar"}</LoginBtn>
+            <LoginBtn loading={isLoading}>{showPassword ? "Entrar" : "Continuar"}</LoginBtn>
           </Box>
         </form>
       </Box>
