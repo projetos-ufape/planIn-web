@@ -2,6 +2,8 @@ import { useState } from "react";
 import { createContext, ReactNode } from "react";
 import { api } from "../service/api";
 import { SignUpProps, UserProps } from "../types/UserProps";
+import { AxiosError } from "axios";
+import { handleError } from "../utils/handleError";
 
 export interface AuthContextProps {
   user: UserProps;
@@ -33,8 +35,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         api.defaults.headers.common["Authorization"] = `Bearer `;
         return true;
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((err: AxiosError) => {
+        handleError(err.response?.data);
         return false;
       })
       .finally(() => {
@@ -53,7 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return true;
       })
       .catch((err) => {
-        console.log(err);
+        handleError(err.response?.data);
         return false;
       })
       .finally(() => {
@@ -73,8 +75,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       .then(() => {
         return true;
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((err: AxiosError) => {
+        if(err.status !== 404) {
+          handleError(err.response?.data);
+        }
         return false;
       })
       .finally(() => {
