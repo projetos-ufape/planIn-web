@@ -3,7 +3,7 @@ import { Button, MenuItem, Menu as MenuMui } from "@mui/material";
 import { useState } from "react";
 import { FONT } from "../../utils/theme";
 
-export function Menu() {
+export function Create() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

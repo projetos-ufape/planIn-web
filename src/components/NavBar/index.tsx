@@ -1,7 +1,8 @@
-import { AccountCircle, KeyboardArrowDown, Search } from "@mui/icons-material";
+import { Search } from "@mui/icons-material";
 import { Box, IconButton, InputBase, useTheme } from "@mui/material";
-import { Menu } from "./Menu";
+import { Create } from "./Create";
 import { Popover } from "./Popover";
+import { Profile } from "./Profile";
 
 export function NavBar() {
   const { palette } = useTheme();
@@ -17,7 +18,7 @@ export function NavBar() {
       paddingLeft={2}
       paddingRight={2}
     >
-      <Menu />
+      <Create />
       <Box
         bgcolor={palette.background.default}
         display="flex"
@@ -48,17 +49,7 @@ export function NavBar() {
       </Box>
       <Box display="flex" alignItems="center" justifyItems="center" gap={1}>
         <Popover />
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyItems="center"
-          gap={0.25}
-        >
-          <AccountCircle color="secondary" />
-          <IconButton size="small">
-            <KeyboardArrowDown />
-          </IconButton>
-        </Box>
+        <Profile />
       </Box>
     </Box>
   );
