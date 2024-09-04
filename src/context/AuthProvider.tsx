@@ -9,6 +9,7 @@ export interface AuthContextProps {
   login: (email: string, password: string) => Promise<boolean>;
   signUp: (data: SignUpProps) => Promise<boolean>;
   logout: () => Promise<void>;
+  userExists: (email: string) => Promise<boolean>;
 }
 
 export const AuthContext = createContext<AuthContextProps>(
@@ -65,8 +66,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     api.defaults.headers.common["Authorization"] = undefined;
   }
 
+  async function userExists(email: string) {
+    setIsLoading(true);
+    return await api
+      .get("user-exists", { params: { email: email}})
+      .then(() => {
+        return true;
+      })
+      .catch((err) => {
+        console.log(err);
+        return false;
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout, signUp }}>
+    <AuthContext.Provider value={{ user, isLoading, login, logout, signUp, userExists }}>
       {children}
     </AuthContext.Provider>
   );

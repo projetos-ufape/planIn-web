@@ -13,7 +13,7 @@ export function Home() {
   const { palette } = useTheme();
   const [currentTab, setCurrentTab] = useState<
     "goals" | "calendar" | "dashboard"
-  >("goals");
+  >("dashboard");
   const handleChangeTab = (
     event: React.SyntheticEvent,
     newTab: "goals" | "calendar" | "dashboard"

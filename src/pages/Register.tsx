@@ -119,7 +119,7 @@ const Register = () => {
                   marginTop: "5px",
                 }}
               />
-            <LoginBtn>Cadastre-se</LoginBtn>
+            <LoginBtn loading={isLoading}>Cadastre-se</LoginBtn>
           </Box>
         </form>
       </Box>

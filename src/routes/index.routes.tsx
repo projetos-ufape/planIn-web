@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Home } from "../pages/Home";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
@@ -20,6 +20,7 @@ export function RouterProvider() {
           <>
             <Route  caseSensitive path="/login" element={<Login />} />
             <Route caseSensitive path="/register" element={<Register />} />
+            <Route path="*" element={<Navigate to="/login" />} />
           </>
         )}
       </Routes>

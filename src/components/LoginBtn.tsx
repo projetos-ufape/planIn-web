@@ -1,8 +1,9 @@
 import { Button, useTheme } from "@mui/material";
 import { FONT } from "../utils/theme";
 import React, { ReactNode } from "react";
+import { Loading } from "./Loading";
 
-const LoginBtn: React.FC<{ children: ReactNode }> = ({ children }) => {
+const LoginBtn: React.FC<{ children: ReactNode, loading: boolean }> = ({ children, loading }) => {
   const { palette } = useTheme();
   return (
     <Button
@@ -23,7 +24,9 @@ const LoginBtn: React.FC<{ children: ReactNode }> = ({ children }) => {
         },
       }}
     >
-      {children}
+      {
+        loading ? <Loading color="inherit" size="1rem" /> : children
+      }
     </Button>
   );
 };
