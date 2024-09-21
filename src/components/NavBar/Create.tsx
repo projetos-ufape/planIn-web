@@ -2,11 +2,11 @@ import { Add } from "@mui/icons-material";
 import { Button, MenuItem, Menu as MenuMui } from "@mui/material";
 import { useState } from "react";
 import { FONT } from "../../utils/theme";
-import { Modal } from "../Modal";
+import { useModal } from "../../hooks/useModal";
 
 export function Create() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const { handleOpen } = useModal();
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -16,7 +16,7 @@ export function Create() {
   };
   
   const handleOpenModal = () => {
-    setOpenModal(true);
+    handleOpen();
     setAnchorEl(null);
   };
 
@@ -52,8 +52,7 @@ export function Create() {
       >
         <MenuItem onClick={handleOpenModal}>Tarefa</MenuItem>
         <MenuItem onClick={handleOpenModal}>Meta</MenuItem>
-      </MenuMui>
-      <Modal open={openModal} setOpen={setOpenModal} />  
+      </MenuMui>  
     </>
   );
 }

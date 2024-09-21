@@ -1,23 +1,20 @@
-import { Box, Button, Modal as ModalMui, Select, TextField, useTheme } from "@mui/material"
-import { useState } from "react"
+import { Box, Button, Modal as ModalMui, TextField, useTheme } from "@mui/material"
 import { Mode } from "./Mode"
 import { DateSettings } from "./DateSettings"
+import { useModal } from "../../hooks/useModal"
 
-type ModalProps = {
-  open: boolean
-  setOpen: (value: boolean) => void
-  type?: 'task' | 'goal'
-}
-
-export function Modal({ open, setOpen, type = "task" }: ModalProps) {
+export function Modal() {
   const { palette } = useTheme();
-  const [mode, setMode] = useState<'task' | 'goal'>(type);
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-
-  function handleClose() {
-    setOpen(false);
-  }
+  const {
+    open,
+    handleClose,
+    mode,
+    setMode,
+    title,
+    setTitle,
+    description,
+    setDescription,
+  } = useModal();
 
   return (
     <ModalMui
@@ -42,7 +39,7 @@ export function Modal({ open, setOpen, type = "task" }: ModalProps) {
 
         <DateSettings />
 
-        <Select></Select>
+        {/* <Select></Select> */}
 
         <TextField
           type="text"

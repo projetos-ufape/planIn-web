@@ -22,7 +22,7 @@ export function Mode({ type, setType }: ModeProps) {
           backgroundColor: type === "task" ? palette.primary.dark : COLORS[mode].background.secondary,
           opacity: type === "task" ? 1 : 0.4,
         }}
-        onClick={() => setType("task")}
+        onClick={() => {setType("task")}}
       >
         <Typography
           fontSize={FONT.label.lg.size}
@@ -41,7 +41,7 @@ export function Mode({ type, setType }: ModeProps) {
           backgroundColor: type === "goal" ? palette.primary.dark : COLORS[mode].background.secondary,
           opacity: type === "goal" ? 1 : 0.4,
         }}
-        onClick={() => setType("goal")}
+        onClick={() => {setType("goal")}}
       >
         <Typography
           fontSize={FONT.label.lg.size}

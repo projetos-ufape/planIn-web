@@ -8,6 +8,7 @@ import { Charts } from "../components/Charts";
 import { FONT } from "../utils/theme";
 import { Goals } from "../components/Goals";
 import { GoalsProvider } from "../context/GoalsProvider";
+import { ModalProvider } from "../context/ModalProvider";
 
 export function Home() {
   const { palette } = useTheme();
@@ -22,28 +23,30 @@ export function Home() {
   };
 
   return (
-    <Box flexDirection={"column"} width={"100%"} alignItems={"center"}>
-      <NavBar />
-      <Container>
-        <Typography fontSize={FONT.title.lg.size} color={palette.text.primary} marginTop={1} marginBottom={1}>
-          Meu Workspace
-        </Typography>
-        <Tabs currentTab={currentTab} handleChangeTab={handleChangeTab}>
-          <TabPanel current={currentTab} value="dashboard">
-            <Charts />
-          </TabPanel>
-          <TabPanel current={currentTab} value="calendar">
-            <Container>
-              <Calendar />
-            </Container>
-          </TabPanel>
-          <TabPanel current={currentTab} value="goals">
-            <GoalsProvider>
-              <Goals />
-            </GoalsProvider>
-          </TabPanel>
-        </Tabs>
-      </Container>
-    </Box>
+    <ModalProvider>
+      <Box flexDirection={"column"} width={"100%"} alignItems={"center"}>
+        <NavBar />
+        <Container>
+          <Typography fontSize={FONT.title.lg.size} color={palette.text.primary} marginTop={1} marginBottom={1}>
+            Meu Workspace
+          </Typography>
+          <Tabs currentTab={currentTab} handleChangeTab={handleChangeTab}>
+            <TabPanel current={currentTab} value="dashboard">
+              <Charts />
+            </TabPanel>
+            <TabPanel current={currentTab} value="calendar">
+              <Container>
+                <Calendar />
+              </Container>
+            </TabPanel>
+            <TabPanel current={currentTab} value="goals">
+              <GoalsProvider>
+                <Goals />
+              </GoalsProvider>
+            </TabPanel>
+          </Tabs>
+        </Container>
+      </Box>
+    </ModalProvider>
   );
 }
