@@ -1,6 +1,7 @@
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import { COLORS, FONT } from "../../utils/theme";
 import useColorTheme from "../../hooks/useColorTheme";
+import { useModal } from "../../hooks/useModal";
 
 type ModeProps = {
   type: 'task' | 'goal'
@@ -8,6 +9,7 @@ type ModeProps = {
 }
 
 export function Mode({ type, setType }: ModeProps) {
+  const { isLoading } = useModal();
   const { mode } = useColorTheme();
   const { palette } = useTheme();
 
@@ -23,6 +25,7 @@ export function Mode({ type, setType }: ModeProps) {
           opacity: type === "task" ? 1 : 0.4,
         }}
         onClick={() => {setType("task")}}
+        disabled={isLoading}
       >
         <Typography
           fontSize={FONT.label.lg.size}
@@ -42,6 +45,7 @@ export function Mode({ type, setType }: ModeProps) {
           opacity: type === "goal" ? 1 : 0.4,
         }}
         onClick={() => {setType("goal")}}
+        disabled={isLoading}
       >
         <Typography
           fontSize={FONT.label.lg.size}

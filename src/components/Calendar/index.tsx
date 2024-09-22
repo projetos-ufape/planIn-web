@@ -7,7 +7,6 @@ import { ToolbarWithLoading } from "./Toolbar";
 
 
 export function Calendar() {
-  
   const [date, setDate] = useState(new Date());
   const {palette} = useTheme();
   const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +37,6 @@ export function Calendar() {
         <WeekView
           displayName="Semana"
           cellDuration={30}
-          startDayHour={4}
         />
         <DayView 
           startDayHour={4}

@@ -23,8 +23,6 @@ export function DateSettings() {
     setSelectedDate,
     goalWithoutDate,
     setGoalWithoutDate,
-    startTime,
-    setStartTime,
     endTime,
     setEndTime,
     notification,
@@ -53,8 +51,8 @@ export function DateSettings() {
           <>
             <TimePicker
               label="Hora de Início"
-              value={startTime}
-              onChange={(newValue) => setStartTime(newValue)}
+              value={selectedDate}
+              onChange={(newValue) => setSelectedDate(newValue)}
             />
 
             <TimePicker

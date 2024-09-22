@@ -15,6 +15,8 @@ export function Modal() {
     setTitle,
     description,
     setDescription,
+    handleCreate,
+    isLoading
   } = useModal();
 
   return (
@@ -33,6 +35,7 @@ export function Modal() {
           label="Título"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          disabled={isLoading}
           required
         />
 
@@ -47,11 +50,12 @@ export function Modal() {
           label="Descrição"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          disabled={isLoading}
         />
 
         <Box display="flex" flexDirection="row" justifyContent="space-between" >
-          <Button variant="text" sx={{ textTransform: 'none', borderRadius: 100 }}>Cancelar</Button>
-          <Button variant="contained" sx={{ textTransform: 'none', borderRadius: 100 }}>Criar</Button>
+          <Button variant="text" onClick={handleClose} disabled={isLoading} sx={{ textTransform: 'none', borderRadius: 100 }}>Cancelar</Button>
+          <Button variant="contained" onClick={handleCreate} disabled={isLoading} sx={{ textTransform: 'none', borderRadius: 100 }}>Criar</Button>
         </Box>
       </Box>
     </ModalMui>

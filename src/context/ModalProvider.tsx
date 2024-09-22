@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { createContext, ReactNode } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { Modal } from "../components/Modal";
+import toast from "react-hot-toast";
+import { api } from "../service/api";
+import { handleError } from "../utils/handleError";
 
 export interface ModalContextProps {
   mode: "task" | "goal";
@@ -12,8 +15,6 @@ export interface ModalContextProps {
   setDescription: (description: string) => void;
   selectedDate: Dayjs | null;
   setSelectedDate: (date: Dayjs | null) => void;
-  startTime: Dayjs | null;
-  setStartTime: (time: Dayjs | null) => void;
   endTime: Dayjs | null;
   setEndTime: (time: Dayjs | null) => void;
   notification: "sim" | "nao";
@@ -28,6 +29,9 @@ export interface ModalContextProps {
   handleClose: () => void;
   notificationTimeType: "minute" | "hour";
   setNotificationTimeType: (value: "minute" | "hour") => void;
+  categorySelected: string;
+  setCategorySelected: (value: string) => void;
+  handleCreate(): Promise<void>
 }
 
 export const ModalContext = createContext<ModalContextProps>(
@@ -40,12 +44,12 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs());
-  const [startTime, setStartTime] = useState<Dayjs | null>(dayjs());
   const [endTime, setEndTime] = useState<Dayjs | null>(dayjs().add(1, "hour"));
   const [notification, setNotification] = useState<"sim" | "nao">("sim");
   const [notificationTimeType, setNotificationTimeType] = useState<"minute" | "hour">("minute");
   const [notificationTime, setNotificationTime] = useState<number>(30);
   const [goalWithoutDate, setGoalWithoutDate] = useState<boolean>(false);
+  const [categorySelected, setCategorySelected] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
 
@@ -58,14 +62,66 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     setMode("task");
     setTitle("");
     setDescription("");
+    setCategorySelected("")
     setSelectedDate(dayjs());
-    setStartTime(dayjs());
     setEndTime(dayjs().add(1, "hour"));
     setNotification("sim");
     setNotificationTime(30);
     setGoalWithoutDate(false);
     setIsLoading(false);
     setOpen(false);
+  }
+
+  async function handleCreate() {
+    if (title.trim().length < 2){
+      toast.error("Título precisa ter pelo menos dois caracteres");
+      return;
+    }
+    if (description.trim().length === 0){
+      toast.error("Descrição precisa ter pelo menos um caractere");
+      return;
+    }
+    if (mode === "task" && selectedDate === null) {
+      toast.error("Necessário selecioar uma data");
+      return;
+    }
+
+    if (!selectedDate || !endTime) {
+      toast.error('Datas inválidas');
+      return;
+    }
+    if (categorySelected === ""){
+      toast.error("selecione uma categoria");
+      return;
+    }
+
+    setIsLoading(true);
+    const endHour = endTime.hour();
+    const endMinute = endTime.minute();
+
+    let  calculatedEndTime = selectedDate.hour(endHour).minute(endMinute);
+    if (calculatedEndTime.isBefore(selectedDate)) {
+      calculatedEndTime = calculatedEndTime.add(1, 'day');
+    }
+    const startDateISO = selectedDate.toISOString(); 
+    const endDateISO = calculatedEndTime.toISOString();
+
+    const requestBody = {
+      title,
+      description,
+      start_date: startDateISO,
+      end_date: endDateISO,
+      status: "PARCIALMENTE_EXECUTADA",
+      category_id: categorySelected
+    };
+    
+    await api.post("tasks", requestBody).then(() => {
+      toast.success("Task criada com sucesso!");
+    }).catch((err) => {
+      handleError(err);
+    }).finally(() => {
+      setIsLoading(false);
+    });
   }
 
   useEffect(() => {
@@ -85,8 +141,6 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         setDescription,
         selectedDate,
         setSelectedDate,
-        startTime,
-        setStartTime,
         endTime,
         setEndTime,
         notification,
@@ -100,7 +154,10 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         handleOpen,
         handleClose,
         notificationTimeType,
-        setNotificationTimeType
+        setNotificationTimeType,
+        categorySelected,
+        setCategorySelected,
+        handleCreate
       }}
     >
       {children}

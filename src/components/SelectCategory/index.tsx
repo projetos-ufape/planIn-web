@@ -1,13 +1,13 @@
 import { MenuItem, TextField, Typography } from "@mui/material";
 import { Option } from "./Option";
 import { FONT } from "../../utils/theme";
-import { useState } from "react";
 import { useCategory } from "../../hooks/useCategory";
+import { useModal } from "../../hooks/useModal";
 
 
 export function SelectCategory() {
+  const { categorySelected, setCategorySelected, isLoading } = useModal();
   const { categories } = useCategory();
-  const [categorySelected, setCategorySelected] = useState<string>("");
 
   return (
     <TextField
@@ -24,6 +24,7 @@ export function SelectCategory() {
         }
       }}
       size="medium"
+      disabled={isLoading}
     >
       <MenuItem disabled value="">
         <Typography fontSize={FONT.body.sm.size} letterSpacing={FONT.body.sm.letter} >Selecione ou crie uma categoria</Typography>
