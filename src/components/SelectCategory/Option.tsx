@@ -164,6 +164,7 @@ export function Option({ create, category, selectedId, setSelected }: OptionProp
               e.stopPropagation();
               setTitle(e.target.value);
             }}
+            onKeyDown={(e) => e.stopPropagation()}
             size="small"
             sx={{ height: 28, fontSize: 12 }}
             disabled={isLoadingCategory}
@@ -186,7 +187,7 @@ export function Option({ create, category, selectedId, setSelected }: OptionProp
                 handleDelete();
               }}
             >
-              Excluir
+              {isLoadingDelete ? <CircularProgress size={"1rem"} /> : "Excluir"}
             </Button>
             <Button
               variant="text"
