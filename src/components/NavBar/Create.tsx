@@ -15,8 +15,8 @@ export function Create() {
     setAnchorEl(null);
   };
   
-  const handleOpenModal = () => {
-    handleOpen();
+  const handleOpenModal = (mode: "task" | "goal") => {
+    handleOpen(mode);
     setAnchorEl(null);
   };
 
@@ -50,8 +50,8 @@ export function Create() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleOpenModal}>Tarefa</MenuItem>
-        <MenuItem onClick={handleOpenModal}>Meta</MenuItem>
+        <MenuItem onClick={() => handleOpenModal("task")}>Tarefa</MenuItem>
+        <MenuItem onClick={() => handleOpenModal("goal")}>Meta</MenuItem>
       </MenuMui>  
     </>
   );

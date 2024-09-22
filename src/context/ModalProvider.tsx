@@ -24,7 +24,7 @@ export interface ModalContextProps {
   setGoalWithoutDate: (value: boolean) => void;
   isLoading: boolean;
   open: boolean;
-  handleOpen: () => void;
+  handleOpen: (mode?: "task" | "goal") => void;
   handleClose: () => void;
   notificationTimeType: "minute" | "hour";
   setNotificationTimeType: (value: "minute" | "hour") => void;
@@ -49,7 +49,8 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(false);
 
 
-  function handleOpen() {
+  function handleOpen(mode: "task" | "goal" = "task") {
+    setMode(mode);
     setOpen(true);
   }
 

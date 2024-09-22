@@ -2,6 +2,7 @@ import { Box, Button, Modal as ModalMui, TextField, useTheme } from "@mui/materi
 import { Mode } from "./Mode"
 import { DateSettings } from "./DateSettings"
 import { useModal } from "../../hooks/useModal"
+import { SelectCategory } from "../SelectCategory";
 
 export function Modal() {
   const { palette } = useTheme();
@@ -39,7 +40,7 @@ export function Modal() {
 
         <DateSettings />
 
-        {/* <Select></Select> */}
+        <SelectCategory />
 
         <TextField
           type="text"
