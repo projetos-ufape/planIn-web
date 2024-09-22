@@ -22,6 +22,7 @@ export function Calendar() {
   const [date, setDate] = useState(new Date());
   const { palette } = useTheme();
   const { tasks, isLoadingTask } = useTask();
+  const [isTooltipVisible, setTooltipVisible] = useState(false);
 
 
   return (
@@ -53,8 +54,12 @@ export function Calendar() {
         <Appointments appointmentComponent={AppointmentComponent} />
         <AppointmentTooltip
           showCloseButton
-          contentComponent={AppointmentTooltipContent}
           headerComponent={AppointmentTooltipHeader}
+          contentComponent={(props) => (
+            <AppointmentTooltipContent {...props} onClose={() => setTooltipVisible(false)} />
+          )}
+          onVisibilityChange={setTooltipVisible}
+          visible={isTooltipVisible}
         />
         <CurrentTimeIndicator shadePreviousCells shadePreviousAppointments />
       </Scheduler>

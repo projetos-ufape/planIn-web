@@ -9,6 +9,7 @@ export function Modal() {
   const {
     open,
     handleClose,
+    id,
     mode,
     setMode,
     title,
@@ -55,7 +56,7 @@ export function Modal() {
 
         <Box display="flex" flexDirection="row" justifyContent="space-between" >
           <Button variant="text" onClick={handleClose} disabled={isLoading} sx={{ textTransform: 'none', borderRadius: 100 }}>Cancelar</Button>
-          <Button variant="contained" onClick={handleCreate} disabled={isLoading} sx={{ textTransform: 'none', borderRadius: 100 }}>Criar</Button>
+          <Button variant="contained" onClick={handleCreate} disabled={isLoading} sx={{ textTransform: 'none', borderRadius: 100 }}>{id ? "Salvar" : "Criar"}</Button>
         </Box>
       </Box>
     </ModalMui>

@@ -4,6 +4,8 @@ import { Box, Grid, IconButton, Typography } from "@mui/material";
 import { FONT } from "../../utils/theme";
 import { categoriesColors, CategoryColorType } from "../../types/CategoryProps";
 import { useTask } from "../../hooks/useTask";
+import { useModal } from "../../hooks/useModal";
+import { TaskProps } from "../../types/TaskPorps";
 
 export const AppointmentComponent = ({
   children, data, ...restProps
@@ -21,9 +23,10 @@ export const AppointmentComponent = ({
 );
 
 export const AppointmentTooltipContent = ({
-  appointmentData, formatDate, 
-}: AppointmentTooltip.ContentProps) => {
+  appointmentData, formatDate, onClose
+}: AppointmentTooltip.ContentProps & { onClose: () => void }) => {
   const { deleteTask } = useTask();
+  const { handleOpenUpdateTask } = useModal();
 
   return (
   <Box display="flex" paddingInline={1} paddingBottom={2}>
@@ -48,12 +51,19 @@ export const AppointmentTooltipContent = ({
       </Grid>
       <Grid container item xs={12} columnSpacing={1}>
         <Grid item xs={10} display="flex" alignItems="center" justifyContent="flex-end" gap={1}>
-          <IconButton  
+          <IconButton
+            onClick={() => {
+              handleOpenUpdateTask({ ...appointmentData } as TaskProps);
+              onClose(); // Fecha a Tooltip ao editar
+            }}
           >
             <ModeEditOutline fontSize="medium" />
           </IconButton>
           <IconButton 
-            onClick={() => deleteTask(String(appointmentData?.id))}
+            onClick={() => {
+              deleteTask(String(appointmentData?.id));
+              onClose(); // Fecha a Tooltip ao deletar
+            }}
           >
             <DeleteOutline fontSize="medium" />
           </IconButton>

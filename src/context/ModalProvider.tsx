@@ -4,9 +4,10 @@ import dayjs, { Dayjs } from "dayjs";
 import { Modal } from "../components/Modal";
 import toast from "react-hot-toast";
 import { useTask } from "../hooks/useTask";
-import { NewTaskProps } from "../types/TaskPorps";
+import { NewTaskProps, TaskProps, UpdateTaskProps } from "../types/TaskPorps";
 
 export interface ModalContextProps {
+  id?: string;
   mode: "task" | "goal";
   setMode: (mode: "task" | "goal") => void;
   title: string;
@@ -31,7 +32,8 @@ export interface ModalContextProps {
   setNotificationTimeType: (value: "minute" | "hour") => void;
   categorySelected: string;
   setCategorySelected: (value: string) => void;
-  handleCreate(): Promise<void>
+  handleCreate: () => Promise<void>;
+  handleOpenUpdateTask: (task: TaskProps) => void;
 }
 
 export const ModalContext = createContext<ModalContextProps>(
@@ -39,6 +41,7 @@ export const ModalContext = createContext<ModalContextProps>(
 );
 
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
+  const [id, setId] = useState<string>();
   const [open, setOpen] = useState<boolean>(false);
   const [mode, setMode] = useState<"task" | "goal">("task");
   const [title, setTitle] = useState<string>("");
@@ -52,7 +55,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [categorySelected, setCategorySelected] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { createTask } = useTask();
+  const { createTask, updateTask } = useTask();
 
   function handleOpen(mode: "task" | "goal" = "task") {
     setMode(mode);
@@ -60,6 +63,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   }
 
   function handleClose() {
+    setId(undefined);
     setMode("task");
     setTitle("");
     setDescription("");
@@ -71,6 +75,21 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     setGoalWithoutDate(false);
     setIsLoading(false);
     setOpen(false);
+  }
+
+  function handleOpenUpdateTask(task: TaskProps) {
+    setId(task._id);
+    setMode("task");
+    setTitle(task.title);
+    setDescription(task.description);
+    setCategorySelected(task.category._id);
+    setSelectedDate(dayjs(task.start_date));
+    setEndTime(dayjs(task.end_date));
+    setNotification("sim");
+    setNotificationTime(30);
+    setGoalWithoutDate(false);
+
+    setOpen(true);
   }
 
   async function handleCreate() {
@@ -107,19 +126,35 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     const startDateISO = selectedDate.toISOString(); 
     const endDateISO = calculatedEndTime.toISOString();
 
-    const requestBody: NewTaskProps = {
-      title,
-      description,
-      start_date: startDateISO,
-      end_date: endDateISO,
-      status: "PARCIALMENTE_EXECUTADA",
-      category_id: categorySelected
-    };
-    
-    await createTask(requestBody).finally(() => {
-      setIsLoading(false);
-      handleClose();
-    });
+    if (id) {
+      const requestBody: UpdateTaskProps = {
+        id,
+        title,
+        description,
+        start_date: startDateISO,
+        end_date: endDateISO,
+        category_id: categorySelected
+      };
+
+      await updateTask(requestBody).finally(() => {
+        setIsLoading(false);
+      })
+    } else {
+      const requestBody: NewTaskProps = {
+        title,
+        description,
+        start_date: startDateISO,
+        end_date: endDateISO,
+        status: "PARCIALMENTE_EXECUTADA",
+        category_id: categorySelected
+      };
+      
+      await createTask(requestBody).finally(() => {
+        setIsLoading(false);
+        handleClose();
+      });
+    }
+
   }
 
   useEffect(() => {
@@ -131,6 +166,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   return (
     <ModalContext.Provider
       value={{
+        id,
         mode,
         setMode,
         title,
@@ -155,7 +191,8 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         setNotificationTimeType,
         categorySelected,
         setCategorySelected,
-        handleCreate
+        handleCreate,
+        handleOpenUpdateTask
       }}
     >
       {children}

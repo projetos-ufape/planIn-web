@@ -3,13 +3,14 @@ import { createContext, ReactNode } from "react";
 import toast from "react-hot-toast";
 import { api } from "../service/api";
 import { handleError } from "../utils/handleError";
-import { NewTaskProps, TaskProps } from "../types/TaskPorps";
+import { NewTaskProps, TaskProps, UpdateTaskProps } from "../types/TaskPorps";
 import { useAuth } from "../hooks/useAuth";
 
 export interface TaskContextProps {
   isLoadingTask: boolean;
   tasks: TaskProps[];
   createTask: (body: NewTaskProps) => Promise<void>;
+  updateTask: (body: UpdateTaskProps) => Promise<void>;
   getTasks: () => Promise<void>;
   deleteTask: (id: string) => Promise<void>;
 }
@@ -27,6 +28,17 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     setIsLoadingTask(true);
     await api.post("tasks", body).then(() => {
       toast.success("Task criada com sucesso!");
+    }).catch((err) => {
+      handleError(err);
+    }).finally(() => {
+      getTasks();
+    });
+  }
+
+  async function updateTask(body: UpdateTaskProps) {
+    setIsLoadingTask(true);
+    await api.put(`tasks/${body.id}`, body).then(() => {
+      toast.success("Task atualizada com sucesso!");
     }).catch((err) => {
       handleError(err);
     }).finally(() => {
@@ -75,7 +87,8 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
         createTask,
         isLoadingTask,
         getTasks,
-        deleteTask
+        deleteTask,
+        updateTask
       }}
     >
       {children}
