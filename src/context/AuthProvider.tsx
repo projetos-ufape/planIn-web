@@ -24,7 +24,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   async function login(email: string, password: string) {
     setIsLoading(true);
-    console.log(api.defaults);
 
     return await api
       .post("login", { email, password })
@@ -32,7 +31,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const { data }: { data: UserProps & { _id: string } } = response.data;
 
         setUser({ ...data, id: data._id });
-        api.defaults.headers.common["Authorization"] = `Bearer `;
+        api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
         return true;
       })
       .catch((err: AxiosError) => {
@@ -49,9 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     return await api
       .post("signup", data)
-      .then((response) => {
-        console.log(response);
-
+      .then(() => {
         return true;
       })
       .catch((err) => {

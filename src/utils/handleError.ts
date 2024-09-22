@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 
 type ErrorProps = {
-  errors: null | any;
+  errors: null | unknown;
   message: string;
   status: string;
 }

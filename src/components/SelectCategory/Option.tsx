@@ -17,18 +17,17 @@ import {
   SaveOutlined,
 } from "@mui/icons-material";
 import { useState } from "react";
-import { categoriesColors } from "./colors";
+import { categoriesColors, CategoryColorType, CategoryProps } from "../../types/CategoryProps";
 
 type OptionProps = {
-  label?: string;
-  color?: string;
+  category?: CategoryProps
   create?: boolean;
 };
 
-export function Option({ create, label, color }: OptionProps) {
+export function Option({ create, category }: OptionProps) {
   const { palette } = useTheme();
-  const [name, setName] = useState(label || "");
-  const [newColor, setNewColor] = useState(color || "");
+  const [name, setName] = useState(category?.title || "");
+  const [color, setColor] = useState<CategoryColorType>(category?.color || "ORANGE");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -37,6 +36,8 @@ export function Option({ create, label, color }: OptionProps) {
 
   const handleClose = () => {
     setAnchorEl(null);
+    setName(category?.title || "");
+    setColor(category?.color || "ORANGE");
   };
   const open = Boolean(anchorEl);
 
@@ -63,11 +64,11 @@ export function Option({ create, label, color }: OptionProps) {
           <>
             <Chip
               size="small"
-              label={label}
+              label={name}
               sx={{
                 borderRadius: 1,
                 color: COLORS.white,
-                backgroundColor: color,
+                backgroundColor: categoriesColors[color].color,
                 fontSize: 12,
                 letterSpacing: 0.5,
                 fontWeight: 500,
@@ -155,19 +156,20 @@ export function Option({ create, label, color }: OptionProps) {
               Cores
             </Typography>
             <Box display="flex" flexDirection="column" gap={0.4}>
-              {categoriesColors.map((c, index) => {
+              {Object.keys(categoriesColors).map((c, index) => {
+                const info = categoriesColors[c as keyof typeof categoriesColors];
                 return (
                   <Button
-                    variant={c.color === newColor ? "contained" : "text"}
-                    color={c.color === newColor ? "primary" : undefined}
+                    variant={c === color ? "contained" : "text"}
+                    color={info.color === color ? "primary" : undefined}
                     key={index}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setNewColor(c.color);
+                      setColor(c as keyof typeof categoriesColors);
                     }}
                     sx={{
                       bgcolor:
-                        c.color === newColor ? palette.secondary.dark : "",
+                        c === color ? palette.secondary.dark : "",
                       display: "flex",
                       flexDirection: "row",
                       gap: 1,
@@ -178,7 +180,7 @@ export function Option({ create, label, color }: OptionProps) {
                     }}
                   >
                     <Box
-                      bgcolor={c.color}
+                      bgcolor={info.color}
                       width={16}
                       height={16}
                       borderRadius={0.5}
@@ -189,7 +191,7 @@ export function Option({ create, label, color }: OptionProps) {
                       color={palette.text.primary}
                       textTransform="none"
                     >
-                      {c.name}
+                      {info.name}
                     </Typography>
                   </Button>
                 );

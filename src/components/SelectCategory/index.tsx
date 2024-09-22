@@ -1,11 +1,12 @@
 import { MenuItem, TextField, Typography } from "@mui/material";
 import { Option } from "./Option";
-import { COLORS, FONT } from "../../utils/theme";
+import { FONT } from "../../utils/theme";
 import { useState } from "react";
+import { useCategory } from "../../hooks/useCategory";
 
 
 export function SelectCategory() {
-
+  const { categories } = useCategory();
   const [category, setCategory] = useState<string>("");
 
   return (
@@ -24,9 +25,16 @@ export function SelectCategory() {
       <MenuItem disabled value={undefined}>
         <Typography fontSize={FONT.body.sm.size} letterSpacing={FONT.body.sm.letter} >Selecione ou crie uma categoria</Typography>
       </MenuItem>
-      <MenuItem value="luan">
-        <Option label="Uma categoria" color={COLORS.purple} />
-      </MenuItem>
+      {
+        categories.map((category) => {
+          return (
+            <MenuItem key={category._id} value={category._id}>
+              <Option category={category} />
+            </MenuItem>
+          )
+        })
+      }
+      
       <MenuItem value="create">
         <Option create />
       </MenuItem>

@@ -4,13 +4,16 @@ import { RouterProvider } from "./routes/index.routes";
 import { Toaster } from 'react-hot-toast';
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { CategoryProvider } from "./context/CategoryProvider";
 
 function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <ThemeProvider>
         <AuthProvider>
-          <RouterProvider />
+          <CategoryProvider>
+            <RouterProvider />
+          </CategoryProvider>
         </AuthProvider>
         <Toaster />
       </ThemeProvider>
