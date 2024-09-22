@@ -7,22 +7,28 @@ import {
   OutlinedInput,
   Popover,
   Typography,
-  useTheme
+  useTheme,
 } from "@mui/material";
 import { COLORS } from "../../utils/theme";
-import { DeleteOutline, MoreHoriz, SaveOutlined } from "@mui/icons-material";
+import {
+  Add,
+  DeleteOutline,
+  MoreHoriz,
+  SaveOutlined,
+} from "@mui/icons-material";
 import { useState } from "react";
 import { categoriesColors } from "./colors";
 
 type OptionProps = {
-  label: string;
-  color: string;
+  label?: string;
+  color?: string;
+  create?: boolean;
 };
 
-export function Option({ label, color }: OptionProps) {
+export function Option({ create, label, color }: OptionProps) {
   const { palette } = useTheme();
-  const [name, setName] = useState(label);
-  const [newColor, setNewColor] = useState(color);
+  const [name, setName] = useState(label || "");
+  const [newColor, setNewColor] = useState(color || "");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -43,27 +49,41 @@ export function Option({ label, color }: OptionProps) {
         justifyContent="space-between"
         sx={{ width: "100%", height: 24 }}
       >
-        <Chip
-          size="small"
-          label={label}
-          sx={{
-            borderRadius: 1,
-            color: COLORS.white,
-            backgroundColor: color,
-            fontSize: 12,
-            letterSpacing: 0.5,
-            fontWeight: 500,
-          }}
-        />
-        <IconButton
-          size="small"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleClick(e);
-          }}
-        >
-          <MoreHoriz fontSize="small" />
-        </IconButton>
+        {create ? (
+          <IconButton
+            size="small"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleClick(e);
+            }}
+          >
+            <Add fontSize="small" />
+          </IconButton>
+        ) : (
+          <>
+            <Chip
+              size="small"
+              label={label}
+              sx={{
+                borderRadius: 1,
+                color: COLORS.white,
+                backgroundColor: color,
+                fontSize: 12,
+                letterSpacing: 0.5,
+                fontWeight: 500,
+              }}
+            />
+            <IconButton
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleClick(e);
+              }}
+            >
+              <MoreHoriz fontSize="small" />
+            </IconButton>
+          </>
+        )}
       </Box>
       <Popover
         open={open}
@@ -99,12 +119,17 @@ export function Option({ label, color }: OptionProps) {
             size="small"
             sx={{ height: 28, fontSize: 12 }}
           />
-          <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" >
+          <Box
+            display="flex"
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <Button
               variant="text"
               size="small"
               startIcon={<DeleteOutline fontSize="small" />}
-              sx={{ borderRadius: 1, textTransform: 'none' }}
+              sx={{ borderRadius: 1, textTransform: "none" }}
               color="secondary"
             >
               Excluir
@@ -113,44 +138,62 @@ export function Option({ label, color }: OptionProps) {
               variant="text"
               size="small"
               startIcon={<SaveOutlined fontSize="small" />}
-              sx={{ borderRadius: 1, textTransform: 'none' }}
+              sx={{ borderRadius: 1, textTransform: "none" }}
               color="secondary"
             >
               Salvar
             </Button>
           </Box>
           <Divider sx={{ marginLeft: -8, marginRight: -8 }} />
-          <Box display="flex" flexDirection="column" gap={0.5}>   
-            <Typography fontSize={10} letterSpacing={0.5} fontWeight={500} color={palette.text.secondary} >Cores</Typography>
+          <Box display="flex" flexDirection="column" gap={0.5}>
+            <Typography
+              fontSize={10}
+              letterSpacing={0.5}
+              fontWeight={500}
+              color={palette.text.secondary}
+            >
+              Cores
+            </Typography>
             <Box display="flex" flexDirection="column" gap={0.4}>
-              {
-                categoriesColors.map((c, index) => {
-                  return (
-                    <Button
-                      variant={c.color === newColor ? "contained" : "text"}
-                      color={c.color === newColor ? "primary" : undefined}
-                      key={index}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setNewColor(c.color);
-                      }}
-                      sx={{
-                        bgcolor:  c.color === newColor ? palette.secondary.dark : "",
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: 1,
-                        alignItems: "center",
-                        justifyContent: "flex-start",
-                        paddingRight: 1,
-                        paddingLeft: 1,
-                      }}
+              {categoriesColors.map((c, index) => {
+                return (
+                  <Button
+                    variant={c.color === newColor ? "contained" : "text"}
+                    color={c.color === newColor ? "primary" : undefined}
+                    key={index}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setNewColor(c.color);
+                    }}
+                    sx={{
+                      bgcolor:
+                        c.color === newColor ? palette.secondary.dark : "",
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 1,
+                      alignItems: "center",
+                      justifyContent: "flex-start",
+                      paddingRight: 1,
+                      paddingLeft: 1,
+                    }}
+                  >
+                    <Box
+                      bgcolor={c.color}
+                      width={16}
+                      height={16}
+                      borderRadius={0.5}
+                    />
+                    <Typography
+                      fontSize={12}
+                      letterSpacing={0.5}
+                      color={palette.text.primary}
+                      textTransform="none"
                     >
-                      <Box bgcolor={c.color} width={16} height={16} borderRadius={0.5} />
-                      <Typography fontSize={12} letterSpacing={0.5} color={palette.text.primary} textTransform="none" >{c.name}</Typography>
-                    </Button>
-                  )
-                })
-              }
+                      {c.name}
+                    </Typography>
+                  </Button>
+                );
+              })}
             </Box>
           </Box>
         </Box>

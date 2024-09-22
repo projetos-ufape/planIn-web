@@ -38,7 +38,7 @@ export function Profile() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={logout}>Tarefa</MenuItem>
+        <MenuItem onClick={logout}>Sair</MenuItem>
       </Menu>
     </>
   )
