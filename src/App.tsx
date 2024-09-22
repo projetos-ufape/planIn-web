@@ -6,6 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/L
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { CategoryProvider } from "./context/CategoryProvider";
 import { FONT } from "./utils/theme";
+import { TaskProvider } from "./context/TaskProvider";
 
 function App() {
   return (
@@ -13,7 +14,9 @@ function App() {
       <ThemeProvider>
         <AuthProvider>
           <CategoryProvider>
-            <RouterProvider />
+            <TaskProvider>
+              <RouterProvider />
+            </TaskProvider>
           </CategoryProvider>
         </AuthProvider>
         <Toaster

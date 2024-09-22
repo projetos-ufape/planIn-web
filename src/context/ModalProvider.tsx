@@ -3,8 +3,8 @@ import { createContext, ReactNode } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { Modal } from "../components/Modal";
 import toast from "react-hot-toast";
-import { api } from "../service/api";
-import { handleError } from "../utils/handleError";
+import { useTask } from "../hooks/useTask";
+import { NewTaskProps } from "../types/TaskPorps";
 
 export interface ModalContextProps {
   mode: "task" | "goal";
@@ -52,6 +52,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [categorySelected, setCategorySelected] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const { createTask } = useTask();
 
   function handleOpen(mode: "task" | "goal" = "task") {
     setMode(mode);
@@ -106,7 +107,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     const startDateISO = selectedDate.toISOString(); 
     const endDateISO = calculatedEndTime.toISOString();
 
-    const requestBody = {
+    const requestBody: NewTaskProps = {
       title,
       description,
       start_date: startDateISO,
@@ -115,12 +116,9 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
       category_id: categorySelected
     };
     
-    await api.post("tasks", requestBody).then(() => {
-      toast.success("Task criada com sucesso!");
-    }).catch((err) => {
-      handleError(err);
-    }).finally(() => {
+    await createTask(requestBody).finally(() => {
       setIsLoading(false);
+      handleClose();
     });
   }
 
