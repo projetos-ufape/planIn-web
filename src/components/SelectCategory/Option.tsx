@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Chip,
+  CircularProgress,
   Divider,
   IconButton,
   OutlinedInput,
@@ -17,17 +18,30 @@ import {
   SaveOutlined,
 } from "@mui/icons-material";
 import { useState } from "react";
-import { categoriesColors, CategoryColorType, CategoryProps } from "../../types/CategoryProps";
+import {
+  categoriesColors,
+  CategoryColorType,
+  CategoryProps,
+} from "../../types/CategoryProps";
+import toast from "react-hot-toast";
+import { useCategory } from "../../hooks/useCategory";
 
 type OptionProps = {
-  category?: CategoryProps
+  category?: CategoryProps;
   create?: boolean;
+  selectedId: string;
+  setSelected: (value: string) => void;
 };
 
-export function Option({ create, category }: OptionProps) {
+export function Option({ create, category, selectedId, setSelected }: OptionProps) {
   const { palette } = useTheme();
-  const [name, setName] = useState(category?.title || "");
-  const [color, setColor] = useState<CategoryColorType>(category?.color || "ORANGE");
+  const { isLoadingCategory, updateCategory, createCategory, deleteCategory } = useCategory();
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+  const [isLoadingSave, setIsLoadingSave] = useState(false);
+  const [title, setTitle] = useState(category?.title || "");
+  const [color, setColor] = useState<CategoryColorType>(
+    category?.color || "ORANGE"
+  );
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -36,10 +50,43 @@ export function Option({ create, category }: OptionProps) {
 
   const handleClose = () => {
     setAnchorEl(null);
-    setName(category?.title || "");
+    setTitle(category?.title || "");
     setColor(category?.color || "ORANGE");
+    setIsLoadingSave(false);
   };
   const open = Boolean(anchorEl);
+
+  async function handleSave() {
+    if (title.trim().length < 2) {
+      toast.error("Nome precisa ter pelo menos 2 caracteres");
+      return;
+    }
+    setIsLoadingSave(true);
+    if (category) {
+      await updateCategory({ _id: category._id, title, color });
+      if (category._id === selectedId) {
+        setSelected("");
+        setTimeout(() => {
+            setSelected(category._id);
+          }, 0);
+      }
+    } else {
+      await createCategory(title, color);
+    }
+    setIsLoadingSave(false);
+  }
+
+  async function handleDelete() {
+    if (!category) return;
+
+    setIsLoadingDelete(true);
+    await deleteCategory(category._id).then(() => {
+      if (category._id === selectedId) {
+        setSelected("");
+      }
+    });
+    setIsLoadingDelete(false);
+  }
 
   return (
     <>
@@ -64,7 +111,7 @@ export function Option({ create, category }: OptionProps) {
           <>
             <Chip
               size="small"
-              label={name}
+              label={title}
               sx={{
                 borderRadius: 1,
                 color: COLORS.white,
@@ -110,15 +157,16 @@ export function Option({ create, category }: OptionProps) {
         >
           <OutlinedInput
             type="text"
-            value={name}
+            value={title}
             onMouseDown={(e) => e.stopPropagation()}
             onClick={(e) => e.stopPropagation()}
             onChange={(e) => {
               e.stopPropagation();
-              setName(e.target.value);
+              setTitle(e.target.value);
             }}
             size="small"
             sx={{ height: 28, fontSize: 12 }}
+            disabled={isLoadingCategory}
           />
           <Box
             display="flex"
@@ -132,6 +180,11 @@ export function Option({ create, category }: OptionProps) {
               startIcon={<DeleteOutline fontSize="small" />}
               sx={{ borderRadius: 1, textTransform: "none" }}
               color="secondary"
+              disabled={isLoadingCategory}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete();
+              }}
             >
               Excluir
             </Button>
@@ -141,8 +194,13 @@ export function Option({ create, category }: OptionProps) {
               startIcon={<SaveOutlined fontSize="small" />}
               sx={{ borderRadius: 1, textTransform: "none" }}
               color="secondary"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSave();
+              }}
+              disabled={isLoadingCategory}
             >
-              Salvar
+              {isLoadingSave ? <CircularProgress size={"1rem"} /> : "Salvar"}
             </Button>
           </Box>
           <Divider sx={{ marginLeft: -8, marginRight: -8 }} />
@@ -157,7 +215,8 @@ export function Option({ create, category }: OptionProps) {
             </Typography>
             <Box display="flex" flexDirection="column" gap={0.4}>
               {Object.keys(categoriesColors).map((c, index) => {
-                const info = categoriesColors[c as keyof typeof categoriesColors];
+                const info =
+                  categoriesColors[c as keyof typeof categoriesColors];
                 return (
                   <Button
                     variant={c === color ? "contained" : "text"}
@@ -168,8 +227,7 @@ export function Option({ create, category }: OptionProps) {
                       setColor(c as keyof typeof categoriesColors);
                     }}
                     sx={{
-                      bgcolor:
-                        c === color ? palette.secondary.dark : "",
+                      bgcolor: c === color ? palette.secondary.dark : "",
                       display: "flex",
                       flexDirection: "row",
                       gap: 1,
@@ -178,6 +236,7 @@ export function Option({ create, category }: OptionProps) {
                       paddingRight: 1,
                       paddingLeft: 1,
                     }}
+                    disabled={isLoadingCategory}
                   >
                     <Box
                       bgcolor={info.color}

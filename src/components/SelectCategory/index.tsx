@@ -7,36 +7,39 @@ import { useCategory } from "../../hooks/useCategory";
 
 export function SelectCategory() {
   const { categories } = useCategory();
-  const [category, setCategory] = useState<string>("");
+  const [categorySelected, setCategorySelected] = useState<string>("");
 
   return (
     <TextField
       select
       label="Categoria"
       variant="outlined"
-      value={category}
+      value={categorySelected}
       onChange={(e) => {
         if (e.target.value !== "create") {
-          setCategory(e.target.value);
+          setCategorySelected("");
+          setTimeout(() => {
+            setCategorySelected(e.target.value);
+          }, 0);
         }
       }}
       size="medium"
     >
-      <MenuItem disabled value={undefined}>
+      <MenuItem disabled value="">
         <Typography fontSize={FONT.body.sm.size} letterSpacing={FONT.body.sm.letter} >Selecione ou crie uma categoria</Typography>
       </MenuItem>
       {
         categories.map((category) => {
           return (
             <MenuItem key={category._id} value={category._id}>
-              <Option category={category} />
+              <Option category={category} selectedId={categorySelected} setSelected={setCategorySelected} />
             </MenuItem>
           )
         })
       }
       
       <MenuItem value="create">
-        <Option create />
+        <Option create selectedId={categorySelected} setSelected={setCategorySelected}  />
       </MenuItem>
     </TextField>
   );
