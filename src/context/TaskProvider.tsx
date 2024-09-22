@@ -4,12 +4,14 @@ import toast from "react-hot-toast";
 import { api } from "../service/api";
 import { handleError } from "../utils/handleError";
 import { NewTaskProps, TaskProps } from "../types/TaskPorps";
+import { useAuth } from "../hooks/useAuth";
 
 export interface TaskContextProps {
   isLoadingTask: boolean;
   tasks: TaskProps[];
-  createTask(body: NewTaskProps): Promise<void>;
-  getTasks(): Promise<void>;
+  createTask: (body: NewTaskProps) => Promise<void>;
+  getTasks: () => Promise<void>;
+  deleteTask: (id: string) => Promise<void>;
 }
 
 export const TaskContext = createContext<TaskContextProps>(
@@ -17,6 +19,7 @@ export const TaskContext = createContext<TaskContextProps>(
 );
 
 export const TaskProvider = ({ children }: { children: ReactNode }) => {
+  const { user } = useAuth();
   const [tasks, setTasks] = useState<TaskProps[]>([]);
   const [isLoadingTask, setIsLoadingTask] = useState(false);
 
@@ -48,9 +51,22 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
       });
   }
 
+  async function deleteTask(id: string) {
+    setIsLoadingTask(true);
+    await api.delete(`tasks/${id}`).then(() => {
+      toast.success("Task removida com sucesso!");
+    }).catch((err) => {
+      handleError(err);
+    }).finally(() => {
+      getTasks();
+    });
+  }
+
   useEffect(() => {
-    getTasks();
-  }, []);
+    if (user?.id){
+      getTasks();
+    }
+  }, [user]);
 
   return (
     <TaskContext.Provider
@@ -58,7 +74,8 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
         tasks,
         createTask,
         isLoadingTask,
-        getTasks
+        getTasks,
+        deleteTask
       }}
     >
       {children}

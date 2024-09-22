@@ -14,7 +14,7 @@ import {
 } from "@devexpress/dx-react-scheduler-material-ui";
 import { Paper, useTheme } from "@mui/material";
 import { useState } from "react";
-import { AppointmentComponent, AppointmentTooltipContent } from "./Appointment";
+import { AppointmentComponent, AppointmentTooltipContent, AppointmentTooltipHeader } from "./Appointment";
 import { ToolbarWithLoading } from "./Toolbar";
 import { useTask } from "../../hooks/useTask";
 
@@ -54,6 +54,7 @@ export function Calendar() {
         <AppointmentTooltip
           showCloseButton
           contentComponent={AppointmentTooltipContent}
+          headerComponent={AppointmentTooltipHeader}
         />
         <CurrentTimeIndicator shadePreviousCells shadePreviousAppointments />
       </Scheduler>
