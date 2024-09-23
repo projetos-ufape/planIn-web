@@ -4,7 +4,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { Modal } from "../components/Modal";
 import toast from "react-hot-toast";
 import { useTask } from "../hooks/useTask";
-import { NewTaskProps, TaskProps, UpdateTaskProps } from "../types/TaskPorps";
+import { NewTaskProps, StatusTaskType, TaskProps, UpdateTaskProps } from "../types/TaskPorps";
 
 export interface ModalContextProps {
   id?: string;
@@ -35,6 +35,8 @@ export interface ModalContextProps {
   setCategorySelected: (value: string) => void;
   handleCreate: () => Promise<void>;
   handleOpenUpdateTask: (task: TaskProps) => void;
+  status: StatusTaskType;
+  setStatus: (value: StatusTaskType) => void;
 }
 
 export const ModalContext = createContext<ModalContextProps>(
@@ -55,6 +57,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [notificationTime, setNotificationTime] = useState<number>(30);
   const [goalWithoutDate, setGoalWithoutDate] = useState<boolean>(false);
   const [categorySelected, setCategorySelected] = useState<string>("");
+  const [status, setStatus] = useState<StatusTaskType>("PARCIALMENTE_EXECUTADA");
   const [isLoading, setIsLoading] = useState(false);
 
   const { createTask, updateTask } = useTask();
@@ -67,6 +70,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   function handleClose() {
     setId(undefined);
     setMode("task");
+    setStatus("PARCIALMENTE_EXECUTADA");
     setDisabledMode(false);
     setTitle("");
     setDescription("");
@@ -83,6 +87,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   function handleOpenUpdateTask(task: TaskProps) {
     setId(task._id);
     setMode("task");
+    setStatus(task.status);
     setDisabledMode(true);
     setTitle(task.title);
     setDescription(task.description);
@@ -139,6 +144,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         start_date: startDateISO,
         end_date: endDateISO,
         category_id: categorySelected,
+        status: status,
         notification_time_unit: notification === "sim" ? notificationTimeType : null,
         notification_time_value: notification === "sim" ? notificationTime : null
       };
@@ -152,7 +158,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         description,
         start_date: startDateISO,
         end_date: endDateISO,
-        status: "PARCIALMENTE_EXECUTADA",
+        status: status,
         category_id: categorySelected,
         notification_time_unit: notification === "sim" ? notificationTimeType : null,
         notification_time_value: notification === "sim" ? notificationTime : null
@@ -177,6 +183,8 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
       value={{
         id,
         disabledMode,
+        status,
+        setStatus,
         mode,
         setMode,
         title,

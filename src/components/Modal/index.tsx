@@ -10,8 +10,6 @@ export function Modal() {
     open,
     handleClose,
     id,
-    mode,
-    setMode,
     title,
     setTitle,
     description,
@@ -40,7 +38,7 @@ export function Modal() {
           required
         />
 
-        <Mode type={mode} setType={setMode} />
+        <Mode />
 
         <DateSettings />
 

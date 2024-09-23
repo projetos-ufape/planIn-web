@@ -25,6 +25,12 @@ export type UpdateTaskProps = {
 
 export type StatusTaskType = "EXECUTADA" | "PARCIALMENTE_EXECUTADA" | "ADIADA";
 
+export const statusTask = {
+  EXECUTADA: "Finalizada",
+  PARCIALMENTE_EXECUTADA: "Criada",
+  ADIADA: "Adiada"
+}
+
 export type TaskProps = {
   _id: string;
   title: string;

@@ -83,8 +83,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
   }
 
-  useEffect(() => {console.log(user)}, [user])
-
   return (
     <AuthContext.Provider value={{ user, isLoading, login, logout, signUp, userExists }}>
       {children}

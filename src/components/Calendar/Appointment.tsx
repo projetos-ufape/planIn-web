@@ -1,11 +1,11 @@
 import { Appointments, AppointmentTooltip } from "@devexpress/dx-react-scheduler-material-ui"
-import { AccessTime, DeleteOutline, DescriptionOutlined, Lens, ModeEditOutline } from "@mui/icons-material";
+import { AccessTime, DeleteOutline, DescriptionOutlined, ErrorOutline, Lens, ModeEditOutline } from "@mui/icons-material";
 import { Box, Grid, IconButton, Typography } from "@mui/material";
 import { FONT } from "../../utils/theme";
 import { categoriesColors, CategoryColorType } from "../../types/CategoryProps";
 import { useTask } from "../../hooks/useTask";
 import { useModal } from "../../hooks/useModal";
-import { TaskProps } from "../../types/TaskPorps";
+import { statusTask, StatusTaskType, TaskProps } from "../../types/TaskPorps";
 
 export const AppointmentComponent = ({
   children, data, ...restProps
@@ -34,7 +34,6 @@ export const AppointmentTooltipContent = ({
       <Grid container item xs={12} columnSpacing={1}>
         <Grid item xs={2} display="flex" alignItems="center" justifyContent="center">
           <DescriptionOutlined fontSize="medium" />
-
         </Grid>
         <Grid item xs={10} display="flex" alignItems="center">
           <Typography fontSize={FONT.body.md.size}>{appointmentData?.description}</Typography>
@@ -50,11 +49,19 @@ export const AppointmentTooltipContent = ({
         </Grid>
       </Grid>
       <Grid container item xs={12} columnSpacing={1}>
+        <Grid item xs={2} display="flex" alignItems="center" justifyContent="center">
+          <ErrorOutline fontSize="medium" />
+        </Grid>
+        <Grid item xs={10} display="flex" alignItems="center">
+          <Typography fontSize={FONT.body.sm.size}>{statusTask[appointmentData?.status as StatusTaskType] || "Não reconhecida"}</Typography>
+        </Grid>
+      </Grid>
+      <Grid container item xs={12} columnSpacing={1}>
         <Grid item xs={10} display="flex" alignItems="center" justifyContent="flex-end" gap={1}>
           <IconButton
             onClick={() => {
               handleOpenUpdateTask({ ...appointmentData } as TaskProps);
-              onClose(); // Fecha a Tooltip ao editar
+              onClose(); 
             }}
           >
             <ModeEditOutline fontSize="medium" />
@@ -62,7 +69,7 @@ export const AppointmentTooltipContent = ({
           <IconButton 
             onClick={() => {
               deleteTask(String(appointmentData?.id));
-              onClose(); // Fecha a Tooltip ao deletar
+              onClose();
             }}
           >
             <DeleteOutline fontSize="medium" />
