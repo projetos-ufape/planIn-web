@@ -5,6 +5,7 @@ import {
   Button,
   Divider,
   IconButton,
+  Link,
   Popover as PopoverMui,
   Typography,
   useTheme,
@@ -79,6 +80,15 @@ export function Popover() {
             paddingRight={1}
           >
             <Button variant="text">
+            <Link
+                  href="/notifications"
+                  sx={{
+                    fontFamily: FONT.body.fontFamily,
+                    color: palette.primary.main,
+                    textDecoration: "none",
+                    marginTop: "5px",
+                  }}
+                >
               <Typography
                 textTransform="none"
                 fontSize={FONT.label.lg.size}
@@ -87,6 +97,7 @@ export function Popover() {
               >
                 Ver todos
               </Typography>
+            </Link>
             </Button>
           </Box>
         </Box>

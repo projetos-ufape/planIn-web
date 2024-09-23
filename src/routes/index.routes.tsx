@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "../pages/Home";
+import { Notifications } from "../pages/Notifications"; 
 import Register from "../pages/Register";
 import Login from "../pages/Login";
 import { NotFound } from "../pages/NotFound";
@@ -20,11 +21,7 @@ function AppRoutes() {
       <Routes>
         <Route element={<ProtectedRoutes />}>
           <Route caseSensitive path="/" element={<Home />} />
-          <Route
-            caseSensitive
-            path="/notifications"
-            element={<div>Notifications</div>}
-          />
+          <Route caseSensitive path="/notifications" element={<Notifications />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route caseSensitive path="/login" element={<Login />} />
