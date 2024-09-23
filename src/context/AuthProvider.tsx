@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const { data }: { data: UserProps & { _id: string } } = response.data;
 
         setUser({ ...data, id: data._id });
-        api.defaults.headers.common["Authorization"] = `Bearer `;
+        api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
         return true;
       })
       .catch((err: AxiosError) => {
