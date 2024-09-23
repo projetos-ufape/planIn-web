@@ -9,6 +9,7 @@ import { FONT } from "../utils/theme";
 import { Goals } from "../components/Goals";
 import { GoalsProvider } from "../context/GoalsProvider";
 import { ModalProvider } from "../context/ModalProvider";
+import { useAuth } from "../hooks/useAuth";
 
 export function Home() {
   const { palette } = useTheme();
@@ -22,6 +23,8 @@ export function Home() {
     setCurrentTab(newTab);
   };
 
+  const { user } = useAuth();
+  console.log(user)
   return (
     <ModalProvider>
       <Box flexDirection={"column"} width={"100%"} alignItems={"center"}>
