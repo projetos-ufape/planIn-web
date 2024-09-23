@@ -5,7 +5,6 @@ import {
   Button,
   Divider,
   IconButton,
-  Link,
   Popover as PopoverMui,
   Typography,
   useTheme,
@@ -13,8 +12,10 @@ import {
 import { useState } from "react";
 import { Notification, NotificationProps } from "./Notification";
 import { FONT } from "../../utils/theme";
+import { useNavigate } from "react-router-dom";
 
 export function Popover() {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const { palette } = useTheme();
 
@@ -79,16 +80,9 @@ export function Popover() {
             paddingTop={0.5}
             paddingRight={1}
           >
-            <Button variant="text">
-            <Link
-                  href="/notifications"
-                  sx={{
-                    fontFamily: FONT.body.fontFamily,
-                    color: palette.primary.main,
-                    textDecoration: "none",
-                    marginTop: "5px",
-                  }}
-                >
+            <Button variant="text" onClick={() => {
+              navigate("/notifications");
+            }}>
               <Typography
                 textTransform="none"
                 fontSize={FONT.label.lg.size}
@@ -97,7 +91,6 @@ export function Popover() {
               >
                 Ver todos
               </Typography>
-            </Link>
             </Button>
           </Box>
         </Box>

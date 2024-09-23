@@ -89,9 +89,10 @@ export const COLORS = {
   black: "#000000",
   green: "#1F8970",
   blue: "#1F4389",
-  brown: "#895F1F",
+  yellow: "#895F1F",
   purple: "#68428E",
   red: "#89251F",
+  orange: "#975621",
 };
 
 export const FONT = {

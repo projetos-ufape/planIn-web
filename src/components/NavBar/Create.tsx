@@ -2,14 +2,21 @@ import { Add } from "@mui/icons-material";
 import { Button, MenuItem, Menu as MenuMui } from "@mui/material";
 import { useState } from "react";
 import { FONT } from "../../utils/theme";
+import { useModal } from "../../hooks/useModal";
 
 export function Create() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { handleOpen } = useModal();
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
+    setAnchorEl(null);
+  };
+  
+  const handleOpenModal = (mode: "task" | "goal") => {
+    handleOpen(mode);
     setAnchorEl(null);
   };
 
@@ -43,9 +50,9 @@ export function Create() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Tarefa</MenuItem>
-        <MenuItem onClick={handleClose}>Meta</MenuItem>
-      </MenuMui>
+        <MenuItem onClick={() => handleOpenModal("task")}>Tarefa</MenuItem>
+        <MenuItem onClick={() => handleOpenModal("goal")}>Meta</MenuItem>
+      </MenuMui>  
     </>
   );
 }

@@ -6,7 +6,7 @@ import { AxiosError } from "axios";
 import { handleError } from "../utils/handleError";
 
 export interface AuthContextProps {
-  user: UserProps;
+  user: UserProps | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   signUp: (data: SignUpProps) => Promise<boolean>;
@@ -19,12 +19,11 @@ export const AuthContext = createContext<AuthContextProps>(
 );
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<UserProps>({} as UserProps);
+  const [user, setUser] = useState<UserProps | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   async function login(email: string, password: string) {
     setIsLoading(true);
-    console.log(api.defaults);
 
     return await api
       .post("login", { email, password })
@@ -49,9 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     return await api
       .post("signup", data)
-      .then((response) => {
-        console.log(response);
-
+      .then(() => {
         return true;
       })
       .catch((err) => {
@@ -64,7 +61,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   async function logout() {
-    setUser({} as UserProps);
+    setUser(null);
     api.defaults.headers.common["Authorization"] = undefined;
   }
 

@@ -1,3 +1,5 @@
+import { CategoryColorType } from "./CategoryProps";
+
 export type ColumnType = "open" | "notReached" | "partiallyReached" | "reached";
 
 export type GoalProps = {
@@ -5,9 +7,17 @@ export type GoalProps = {
   title: string;
   endDate?: Date;
   category: {
-    label: string;
-    color: string;
+    _id: string;
+    title: string;
+    color: CategoryColorType;
   };
+  columnId: ColumnType;
+};
+
+export type NewGoalProps = {
+  title: string;
+  endDate?: Date;
+  category_id: string;
   columnId: ColumnType;
 };
 

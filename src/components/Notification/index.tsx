@@ -34,6 +34,7 @@ export function Notification({ data, onDelete, onMarkAsRead }: Props) {
       width={"100%"}
       border={1}
       borderRadius={3}
+      maxWidth={552}
       borderColor={palette.secondary.dark}
       bgcolor={data.status === 'unread' ? COLORS[mode].background.border : COLORS[mode].background.paper}
     >
