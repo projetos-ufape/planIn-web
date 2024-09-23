@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createContext, ReactNode } from "react";
 import { api } from "../service/api";
 import { SignUpProps, UserProps } from "../types/UserProps";

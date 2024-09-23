@@ -82,7 +82,7 @@ export const CategoryProvider = ({ children }: { children: ReactNode }) => {
   }
 
   useEffect(() => {
-    if (user.id) {
+    if (user?.id) {
       getCategories();
     }
   }, [user]);
