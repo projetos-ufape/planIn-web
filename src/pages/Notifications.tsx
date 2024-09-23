@@ -35,24 +35,24 @@ export function Notifications() {
   };
 
   return (
-    <Box flexDirection={"column"} width={"100%"} alignItems={"center"}>
+    <Box flexDirection={"column"}  width={"100%"}>
       <NavBar />
       <Container>
-        <Box flexDirection={"column"} display={"flex"} gap={2}>
-          <Box display="flex" justifyContent="space-between" alignItems="center" marginTop={2} marginBottom={1}>
-            <Typography fontSize={FONT.title.lg.lineHeight} color={palette.text.primary}>
-              Lembretes e notificações
-            </Typography>
+        <Box display="flex" flexDirection="column" alignItems="center" gap={2} marginBottom={2}>
+            <Box display="flex" justifyContent="space-between" alignItems="center" marginTop={2} marginBottom={1} width="100%" maxWidth={552}>
+              <Typography fontSize={FONT.title.lg.size} color={palette.text.primary}>
+                Lembretes e notificações
+              </Typography>
               <Button variant="outlined" onClick={() => navigate(-1)}>Voltar</Button>
-          </Box>
-          {notifications.map((notification, index) => (
-            <Notification
-              key={index}
-              data={notification}
-              onDelete={() => handleDelete(index)}
-              onMarkAsRead={() => markAsRead(index)}
-            />
-          ))}
+            </Box>
+            {notifications.map((notification, index) => (
+              <Notification
+                key={index}
+                data={notification}
+                onDelete={() => handleDelete(index)}
+                onMarkAsRead={() => markAsRead(index)}
+              />
+            ))}
         </Box>
       </Container>
     </Box>
