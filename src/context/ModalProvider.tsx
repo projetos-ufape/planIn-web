@@ -85,8 +85,9 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     setCategorySelected(task.category._id);
     setSelectedDate(dayjs(task.start_date));
     setEndTime(dayjs(task.end_date));
-    setNotification("sim");
-    setNotificationTime(30);
+    setNotification((task.notification_time_unit && task.notification_time_value) ? "sim" : "nao");
+    setNotificationTimeType(task.notification_time_unit || "MINUTE");
+    setNotificationTime(task.notification_time_value || 30);
     setGoalWithoutDate(false);
 
     setOpen(true);
@@ -134,8 +135,8 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         start_date: startDateISO,
         end_date: endDateISO,
         category_id: categorySelected,
-        notification_time_unit: notification === "sim" ? notificationTimeType : undefined,
-        notification_time_value: notification === "sim" ? notificationTime : undefined
+        notification_time_unit: notification === "sim" ? notificationTimeType : null,
+        notification_time_value: notification === "sim" ? notificationTime : null
       };
 
       await updateTask(requestBody).finally(() => {
@@ -149,8 +150,8 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         end_date: endDateISO,
         status: "PARCIALMENTE_EXECUTADA",
         category_id: categorySelected,
-        notification_time_unit: notification === "sim" ? notificationTimeType : undefined,
-        notification_time_value: notification === "sim" ? notificationTime : undefined
+        notification_time_unit: notification === "sim" ? notificationTimeType : null,
+        notification_time_value: notification === "sim" ? notificationTime : null
       };
       
       await createTask(requestBody).finally(() => {
