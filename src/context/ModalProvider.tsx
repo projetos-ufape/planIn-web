@@ -28,8 +28,8 @@ export interface ModalContextProps {
   open: boolean;
   handleOpen: (mode?: "task" | "goal") => void;
   handleClose: () => void;
-  notificationTimeType: "minute" | "hour";
-  setNotificationTimeType: (value: "minute" | "hour") => void;
+  notificationTimeType: "MINUTE" | "HOUR";
+  setNotificationTimeType: (value: "MINUTE" | "HOUR") => void;
   categorySelected: string;
   setCategorySelected: (value: string) => void;
   handleCreate: () => Promise<void>;
@@ -49,7 +49,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs());
   const [endTime, setEndTime] = useState<Dayjs | null>(dayjs().add(1, "hour"));
   const [notification, setNotification] = useState<"sim" | "nao">("sim");
-  const [notificationTimeType, setNotificationTimeType] = useState<"minute" | "hour">("minute");
+  const [notificationTimeType, setNotificationTimeType] = useState<"MINUTE" | "HOUR">("MINUTE");
   const [notificationTime, setNotificationTime] = useState<number>(30);
   const [goalWithoutDate, setGoalWithoutDate] = useState<boolean>(false);
   const [categorySelected, setCategorySelected] = useState<string>("");
@@ -133,7 +133,9 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         description,
         start_date: startDateISO,
         end_date: endDateISO,
-        category_id: categorySelected
+        category_id: categorySelected,
+        notification_time_unit: notification === "sim" ? notificationTimeType : undefined,
+        notification_time_value: notification === "sim" ? notificationTime : undefined
       };
 
       await updateTask(requestBody).finally(() => {
@@ -146,7 +148,9 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         start_date: startDateISO,
         end_date: endDateISO,
         status: "PARCIALMENTE_EXECUTADA",
-        category_id: categorySelected
+        category_id: categorySelected,
+        notification_time_unit: notification === "sim" ? notificationTimeType : undefined,
+        notification_time_value: notification === "sim" ? notificationTime : undefined
       };
       
       await createTask(requestBody).finally(() => {

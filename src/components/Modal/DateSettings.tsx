@@ -138,11 +138,11 @@ export function DateSettings() {
                 <KeyboardArrowDownOutlined {...props} fontSize="small" />
               )}
               onChange={(e) =>
-                setNotificationTimeType(e.target.value as "minute" | "hour")
+                setNotificationTimeType(e.target.value as "MINUTE" | "HOUR")
               }
             >
-              <MenuItem value="minute">Minutos</MenuItem>
-              <MenuItem value="hour">Horas</MenuItem>
+              <MenuItem value="MINUTE">Minutos</MenuItem>
+              <MenuItem value="HOUR">Horas</MenuItem>
             </Select>
           </>
         )}

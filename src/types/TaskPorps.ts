@@ -7,6 +7,8 @@ export type NewTaskProps = {
   end_date: string;
   status: StatusTaskType;
   category_id: string;
+  notification_time_unit?: "MINUTE" | "HOUR" | null;
+  notification_time_value?: number | null;
 };
 
 export type UpdateTaskProps = {
@@ -17,6 +19,8 @@ export type UpdateTaskProps = {
   end_date: string;
   status?: StatusTaskType;
   category_id: string;
+  notification_time_unit?: "MINUTE" | "HOUR" | null;
+  notification_time_value?: number | null;
 };
 
 export type StatusTaskType = "EXECUTADA" | "PARCIALMENTE_EXECUTADA" | "ADIADA";
@@ -33,4 +37,6 @@ export type TaskProps = {
     title: string;
     color: CategoryColorType;
   };
+  notification_time_unit?: "MINUTE" | "HOUR" | null;
+  notification_time_value?: number | null;
 };
