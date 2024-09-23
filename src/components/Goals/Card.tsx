@@ -67,13 +67,22 @@ export function Card({ data }: CardProps) {
         cursor: isPressed ? "grabbing" : "grab"
       }}
     >
-      <Typography
-        fontSize={FONT.body.sm.size}
-        letterSpacing={FONT.body.sm.letter}
-        color={palette.text.primary}
-      >
-        {data.title}
-      </Typography>
+      <Box display="flex" flexDirection="column" gap={1} >
+        <Typography
+          fontSize={FONT.body.md.size}
+          letterSpacing={FONT.body.md.letter}
+          color={palette.text.primary}
+          >
+          {data.title}
+        </Typography>
+        <Typography
+          fontSize={FONT.body.sm.size}
+          letterSpacing={FONT.body.sm.letter}
+          color={palette.text.secondary}
+          >
+          {data.description}
+        </Typography>
+      </Box>
 
       <Box display="flex" justifyContent="space-between" alignItems="center"  >
         <Tag label={data.category.title} color={categoriesColors[data.category.color]?.color || "#776244"} />
@@ -83,7 +92,7 @@ export function Card({ data }: CardProps) {
           fontWeight={500}
           color={palette.text.secondary}
         >
-          {data.endDate ? getDayAndMMM(data.endDate) : ""}
+          {data.end_date ? getDayAndMMM(data.end_date) : ""}
         </Typography>
       </Box>
     </Box>

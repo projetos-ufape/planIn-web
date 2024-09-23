@@ -15,6 +15,7 @@ import { FONT } from "./utils/theme";
 import Login from "./pages/Login";
 import { createBrowserRouter } from "react-router-dom";
 import { NotificationProvider } from "./context/NotificationProvider";
+import { GoalsProvider } from "./context/GoalsProvider";
 
 
 const router = createBrowserRouter([
@@ -53,7 +54,9 @@ function App() {
           <NotificationProvider>
             <CategoryProvider>
               <TaskProvider>
-                <Router router={router} />
+                <GoalsProvider>
+                  <Router router={router} />
+                </GoalsProvider>
               </TaskProvider>
             </CategoryProvider>
           </NotificationProvider>

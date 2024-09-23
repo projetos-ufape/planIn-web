@@ -5,6 +5,8 @@ import { Modal } from "../components/Modal";
 import toast from "react-hot-toast";
 import { useTask } from "../hooks/useTask";
 import { NewTaskProps, StatusTaskType, TaskProps, UpdateTaskProps } from "../types/TaskPorps";
+import { NewGoalProps } from "../types/GoalsProps";
+import useGoals from "../hooks/useGoals";
 
 export interface ModalContextProps {
   id?: string;
@@ -61,6 +63,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { createTask, updateTask } = useTask();
+  const { createGoal } = useGoals();
 
   function handleOpen(mode: "task" | "goal" = "task") {
     setMode(mode);
@@ -136,23 +139,25 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     const startDateISO = selectedDate.toISOString(); 
     const endDateISO = calculatedEndTime.toISOString();
 
-    if (id) {
-      const requestBody: UpdateTaskProps = {
-        id,
-        title,
-        description,
-        start_date: startDateISO,
-        end_date: endDateISO,
-        category_id: categorySelected,
-        status: status,
-        notification_time_unit: notification === "sim" ? notificationTimeType : null,
-        notification_time_value: notification === "sim" ? notificationTime : null
-      };
+    if (mode === "task") {
 
-      await updateTask(requestBody).finally(() => {
-        setIsLoading(false);
-      })
-    } else {
+      if (id) {
+        const requestBody: UpdateTaskProps = {
+          id,
+          title,
+          description,
+          start_date: startDateISO,
+          end_date: endDateISO,
+          category_id: categorySelected,
+          status: status,
+          notification_time_unit: notification === "sim" ? notificationTimeType : null,
+          notification_time_value: notification === "sim" ? notificationTime : null
+        };
+
+        await updateTask(requestBody).finally(() => {
+          setIsLoading(false);
+        })
+      } else {
       const requestBody: NewTaskProps = {
         title,
         description,
@@ -168,8 +173,23 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         setIsLoading(false);
         handleClose();
       });
+      }
+    } else {
+      const body: NewGoalProps = {
+        priority: "HIGH",
+        title,
+        description,
+        category_id: categorySelected,
+        end_date: goalWithoutDate ? undefined : startDateISO,
+        notification_time_unit: notification === "sim" ? notificationTimeType : null,
+        notification_time_value: notification === "sim" ? notificationTime : null
+      }
+      await createGoal(body).finally(() => {
+        setIsLoading(false);
+        handleClose();
+      })
     }
-
+    
   }
 
   useEffect(() => {

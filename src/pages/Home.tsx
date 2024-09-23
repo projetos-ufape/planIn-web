@@ -7,7 +7,6 @@ import { NavBar } from "../components/NavBar";
 import { Charts } from "../components/Charts";
 import { FONT } from "../utils/theme";
 import { Goals } from "../components/Goals";
-import { GoalsProvider } from "../context/GoalsProvider";
 import { ModalProvider } from "../context/ModalProvider";
 
 export function Home() {
@@ -40,9 +39,7 @@ export function Home() {
               </Container>
             </TabPanel>
             <TabPanel current={currentTab} value="goals">
-              <GoalsProvider>
                 <Goals />
-              </GoalsProvider>
             </TabPanel>
           </Tabs>
         </Container>
