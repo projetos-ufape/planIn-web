@@ -14,6 +14,7 @@ import { Toaster } from "react-hot-toast";
 import { FONT } from "./utils/theme";
 import Login from "./pages/Login";
 import { createBrowserRouter } from "react-router-dom";
+import { NotificationProvider } from "./context/NotificationProvider";
 
 
 const router = createBrowserRouter([
@@ -45,16 +46,17 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  console.log("renderizou");
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <ThemeProvider>
         <AuthProvider>
-          <CategoryProvider>
-            <TaskProvider>
-              <Router router={router} />
-            </TaskProvider>
-          </CategoryProvider>
+          <NotificationProvider>
+            <CategoryProvider>
+              <TaskProvider>
+                <Router router={router} />
+              </TaskProvider>
+            </CategoryProvider>
+          </NotificationProvider>
         </AuthProvider>
         <Toaster containerStyle={{ fontFamily: FONT.body.fontFamily }} />
       </ThemeProvider>
