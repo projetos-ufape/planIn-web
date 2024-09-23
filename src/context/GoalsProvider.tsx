@@ -8,6 +8,7 @@ import {
 } from "../types/GoalsProps";
 import { api } from "../service/api";
 import { handleError } from "../utils/handleError";
+import { useAuth } from "../hooks/useAuth";
 
 export interface GoalsContextProps {
   moveGoal: (
@@ -27,6 +28,7 @@ export const GoalsContext = createContext<GoalsContextProps>(
 );
 
 export const GoalsProvider = ({ children }: { children: ReactNode }) => {
+  const { user } = useAuth();
   const [goals, setGoals] = useState<GoalsSummaryProps>({
     open: [],
     notReached: [],
@@ -74,7 +76,7 @@ export const GoalsProvider = ({ children }: { children: ReactNode }) => {
       .get("goals")
       .then((res) => {
         // TODO TRATAMENTO
-
+        console.log(res);
         setGoals({
           open: [
             {
@@ -270,8 +272,10 @@ export const GoalsProvider = ({ children }: { children: ReactNode }) => {
   }
 
   useEffect(() => {
-    getGoals();
-  }, []);
+    if (user) {
+      getGoals();
+    }
+  }, [user]);
 
   return (
     <GoalsContext.Provider
