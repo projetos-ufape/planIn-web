@@ -6,6 +6,7 @@ import useColorTheme from "../../hooks/useColorTheme";
 import { Tag } from "../Tag";
 import { GoalProps } from "../../types/GoalsProps";
 import { getDayAndMMM } from "../../utils/dateHelper";
+import { categoriesColors } from "../../types/CategoryProps";
 
 type CardProps = {
   data: GoalProps;
@@ -75,7 +76,7 @@ export function Card({ data }: CardProps) {
       </Typography>
 
       <Box display="flex" justifyContent="space-between" alignItems="center"  >
-        <Tag label={data.category.label} color={data.category.color} />
+        <Tag label={data.category.title} color={categoriesColors[data.category.color]?.color || "#776244"} />
         <Typography
           fontSize={10}
           letterSpacing={FONT.body.sm.letter}
