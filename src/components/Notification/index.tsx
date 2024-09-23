@@ -2,13 +2,7 @@ import { Box, Button, Typography, useTheme } from "@mui/material";
 import { COLORS, FONT } from "../../utils/theme";
 import { formatTime, getDayOfWeek } from "../../utils/dateHelper";
 import useColorTheme from "../../hooks/useColorTheme";
-
-export type NotificationProps = {
-  title: string;
-  status: string,
-  dateTimeStart: Date;
-  dateTimeEnd?: Date;
-};
+import type { NotificationProps } from "../../types/NotificationProps";
 
 type Props = {
   data: NotificationProps;
@@ -16,6 +10,7 @@ type Props = {
   onMarkAsRead: () => void;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function Notification({ data, onDelete, onMarkAsRead }: Props) {
   const { palette } = useTheme();
   const { mode } = useColorTheme();
@@ -77,7 +72,7 @@ export function Notification({ data, onDelete, onMarkAsRead }: Props) {
         paddingTop={0.5}
         paddingRight={1}
       >
-        <Button variant="text" onClick={onDelete}>
+        {/* <Button variant="text" onClick={onDelete}>
           <Typography
             textTransform="none"
             fontSize={FONT.label.lg.size}
@@ -87,7 +82,7 @@ export function Notification({ data, onDelete, onMarkAsRead }: Props) {
           >
             Excluir
           </Typography>
-        </Button>
+        </Button> */}
 
         {data.status === 'unread' && (
           <Button variant="text" onClick={onMarkAsRead}>

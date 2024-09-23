@@ -10,9 +10,10 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
-import { Notification, NotificationProps } from "./Notification";
+import { Notification } from "./Notification";
 import { FONT } from "../../utils/theme";
 import { useNavigate } from "react-router-dom";
+import { useNotification } from "../../hooks/useNotification";
 
 export function Popover() {
   const navigate = useNavigate();
@@ -28,18 +29,7 @@ export function Popover() {
   };
   const open = Boolean(anchorEl);
 
-  //TODO: Request notifications
-  const notifications: NotificationProps[] = [
-    {
-      title: "Conversa a respeito do projeto",
-      dateTimeStart: new Date("2024-08-20 12:30:00"),
-    },
-    {
-      title: "Entrevista",
-      dateTimeStart: new Date("2024-08-21 14:30:00"),
-      dateTimeEnd: new Date("2024-08-21 16:30:00"),
-    },
-  ];
+  const { notifications } = useNotification();
 
   return (
     <>
@@ -62,7 +52,7 @@ export function Popover() {
         }}
       >
         <Box border={1} borderColor={palette.secondary.dark} borderRadius={2}>
-          {notifications.map((n, index) => {
+          {notifications?.map((n, index) => {
             return (
               <Box key={index} >
                 <Notification data={n}/>
