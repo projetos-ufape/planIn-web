@@ -8,6 +8,7 @@ import { NewTaskProps, TaskProps, UpdateTaskProps } from "../types/TaskPorps";
 
 export interface ModalContextProps {
   id?: string;
+  disabledMode: boolean;
   mode: "task" | "goal";
   setMode: (mode: "task" | "goal") => void;
   title: string;
@@ -42,6 +43,7 @@ export const ModalContext = createContext<ModalContextProps>(
 
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [id, setId] = useState<string>();
+  const [disabledMode, setDisabledMode] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [mode, setMode] = useState<"task" | "goal">("task");
   const [title, setTitle] = useState<string>("");
@@ -65,6 +67,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   function handleClose() {
     setId(undefined);
     setMode("task");
+    setDisabledMode(false);
     setTitle("");
     setDescription("");
     setCategorySelected("")
@@ -80,6 +83,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   function handleOpenUpdateTask(task: TaskProps) {
     setId(task._id);
     setMode("task");
+    setDisabledMode(true);
     setTitle(task.title);
     setDescription(task.description);
     setCategorySelected(task.category._id);
@@ -172,6 +176,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     <ModalContext.Provider
       value={{
         id,
+        disabledMode,
         mode,
         setMode,
         title,

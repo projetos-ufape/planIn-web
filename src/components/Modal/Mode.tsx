@@ -5,11 +5,11 @@ import { useModal } from "../../hooks/useModal";
 
 type ModeProps = {
   type: 'task' | 'goal'
-  setType: (type: 'task' | 'goal') => void
+  setType: (type: 'task' | 'goal') => void;
 }
 
 export function Mode({ type, setType }: ModeProps) {
-  const { isLoading } = useModal();
+  const { isLoading, disabledMode } = useModal();
   const { mode } = useColorTheme();
   const { palette } = useTheme();
 
@@ -25,7 +25,7 @@ export function Mode({ type, setType }: ModeProps) {
           opacity: type === "task" ? 1 : 0.4,
         }}
         onClick={() => {setType("task")}}
-        disabled={isLoading}
+        disabled={isLoading || disabledMode}
       >
         <Typography
           fontSize={FONT.label.lg.size}
@@ -45,7 +45,7 @@ export function Mode({ type, setType }: ModeProps) {
           opacity: type === "goal" ? 1 : 0.4,
         }}
         onClick={() => {setType("goal")}}
-        disabled={isLoading}
+        disabled={isLoading || disabledMode}
       >
         <Typography
           fontSize={FONT.label.lg.size}
