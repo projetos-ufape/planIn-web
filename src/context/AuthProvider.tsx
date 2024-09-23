@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createContext, ReactNode } from "react";
 import { api } from "../service/api";
 import { SignUpProps, UserProps } from "../types/UserProps";
@@ -6,7 +6,7 @@ import { AxiosError } from "axios";
 import { handleError } from "../utils/handleError";
 
 export interface AuthContextProps {
-  user: UserProps;
+  user: UserProps | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   signUp: (data: SignUpProps) => Promise<boolean>;
@@ -19,7 +19,7 @@ export const AuthContext = createContext<AuthContextProps>(
 );
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<UserProps>({} as UserProps);
+  const [user, setUser] = useState<UserProps | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   async function login(email: string, password: string) {
@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   async function logout() {
-    setUser({} as UserProps);
+    setUser(null);
     api.defaults.headers.common["Authorization"] = undefined;
   }
 
@@ -82,6 +82,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setIsLoading(false);
       });
   }
+
+  useEffect(() => {console.log(user)}, [user])
 
   return (
     <AuthContext.Provider value={{ user, isLoading, login, logout, signUp, userExists }}>
