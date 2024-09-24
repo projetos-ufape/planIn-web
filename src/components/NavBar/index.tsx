@@ -19,7 +19,7 @@ export function NavBar() {
       paddingRight={2}
     >
       <Create />
-      <Box
+      {/* <Box
         bgcolor={palette.background.default}
         display="flex"
         alignItems="center"
@@ -46,7 +46,8 @@ export function NavBar() {
         <IconButton size="small">
           <Search sx={{ color: palette.text.secondary }} />
         </IconButton>
-      </Box>
+      </Box> */} 
+      <Box></Box>
       <Box display="flex" alignItems="center" justifyItems="center" gap={1}>
         <Popover />
         <Profile />

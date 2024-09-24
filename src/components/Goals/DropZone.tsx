@@ -6,6 +6,7 @@ import { COLORS, FONT } from "../../utils/theme";
 import useColorTheme from "../../hooks/useColorTheme";
 import { ColumnType, GoalProps } from "../../types/GoalsProps";
 import useGoals from "../../hooks/useGoals";
+import { categoriesColors, CategoryColorType } from "../../types/CategoryProps";
 
 export function DropZone({
   position,
@@ -14,7 +15,7 @@ export function DropZone({
   height = 8,
   flexGrow,
 }: {
-  fatherId?: number;
+  fatherId?: string;
   columnId: ColumnType;
   position: number;
   height?: number | string;
@@ -49,9 +50,9 @@ export function DropZone({
       onDragLeave() {
         setIsOver(false);
       },
-      onDrop({ source }) {
+      async onDrop({ source }) {
         setIsOver(false);
-        moveGoal(source.data as GoalProps, position, columnId);
+        await moveGoal(source.data as GoalProps, position, columnId);
       },
     });
   }, [data, fatherId, position]);
@@ -88,8 +89,8 @@ export function DropZone({
             alignItems="center"
           >
             <Tag
-              label={data?.category.label || ""}
-              color={data?.category.color || ""}
+              label={data?.category.title || ""}
+              color={categoriesColors[data?.category?.color as CategoryColorType].color || ""}
             />
             <Typography
               fontSize={10}

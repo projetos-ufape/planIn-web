@@ -5,9 +5,11 @@ import {
   GoalProps,
   GoalsSummaryProps,
   NewGoalProps,
+  StatusGoalType,
 } from "../types/GoalsProps";
 import { api } from "../service/api";
 import { handleError } from "../utils/handleError";
+import { useAuth } from "../hooks/useAuth";
 
 export interface GoalsContextProps {
   moveGoal: (
@@ -16,7 +18,7 @@ export interface GoalsContextProps {
     columnId: ColumnType
   ) => Promise<void>;
   createGoal: (goal: NewGoalProps) => Promise<void>;
-  updateGoal: (goal: GoalProps) => Promise<void>;
+  updateGoal: (id: string, status: StatusGoalType) => Promise<void>
   deleteGoal: (id: string) => Promise<void>;
   isGoalsLoading: boolean;
   goals: GoalsSummaryProps;
@@ -27,8 +29,8 @@ export const GoalsContext = createContext<GoalsContextProps>(
 );
 
 export const GoalsProvider = ({ children }: { children: ReactNode }) => {
+  const { user } = useAuth();
   const [goals, setGoals] = useState<GoalsSummaryProps>({
-    open: [],
     notReached: [],
     partiallyReached: [],
     reached: [],
@@ -44,7 +46,7 @@ export const GoalsProvider = ({ children }: { children: ReactNode }) => {
     const newGoals = { ...goals };
 
     newGoals[goal.columnId] = newGoals[goal.columnId].filter(
-      (item) => item.id !== goal.id
+      (item) => item._id !== goal._id
     );
 
     const updatedColumn = [...newGoals[columnId]];
@@ -53,175 +55,52 @@ export const GoalsProvider = ({ children }: { children: ReactNode }) => {
 
     setGoals(newGoals);
 
-    const body: Record<ColumnType, number[]> = {} as Record<
-      ColumnType,
-      number[]
-    >;
+    // const body: Record<ColumnType, number[]> = {} as Record<
+    //   ColumnType,
+    //   number[]
+    // >;
 
-    if (goal.columnId !== columnId) {
-      body[goal.columnId] = newGoals[goal.columnId].map((i) => i.id);
-      body[columnId] = newGoals[columnId].map((i) => i.id);
-    } else {
-      body[columnId] = newGoals[columnId].map((i) => i.id);
-    }
+    // if (goal.columnId !== columnId) {
+    //   body[goal.columnId] = newGoals[goal.columnId].map((i) => i._id);
+    //   body[columnId] = newGoals[columnId].map((i) => i._id);
+    // } else {
+    //   body[columnId] = newGoals[columnId].map((i) => i._id);
+    // }
+
+    const status: StatusGoalType = columnId === "notReached" ? "NOT_REACHED" : columnId === "partiallyReached" ? "PARTIALLY_REACHED" : "REACHED";
+    await updateGoal(goal._id, status).then(() => {
+      
+    });
 
     // await api.patch("goals/order", body).then(() => {}).catch(() => {});
   }
 
-  async function getGoals() {
-    setIsGoalsLoading(true);
+  async function getGoals(loading: boolean = true) {
+    setIsGoalsLoading(loading);
     await api
       .get("goals")
       .then((res) => {
-        // TODO TRATAMENTO
+        const {data}:{ data: GoalProps[]} = res.data;
+        console.log(data);
+        const notReached: GoalProps[] = [];
+        const partiallyReached: GoalProps[] = [];
+        const reached: GoalProps[] = [];
+
+        data.forEach((g) => {
+          if (g.status === "NOT_REACHED") notReached.push({...g, columnId: "notReached"});
+          else if (g.status === "PARTIALLY_REACHED") partiallyReached.push({...g, columnId: "partiallyReached"});
+          else reached.push({...g, columnId: "reached"});
+        })
 
         setGoals({
-          open: [
-            {
-              id: 0,
-              title: "Criar exemplo de banco de dados usando SQL",
-              category: {
-                _id: "dsfds43",
-                title: "Faculdade",
-                color: "ORANGE",
-              },
-              columnId: "open",
-            },
-            {
-              id: 1,
-              title: "Configurar API",
-              category: {
-                _id: "dsfds43",
-                title: "Teste",
-                color: "RED",
-              },
-              columnId: "open",
-            },
-            {
-              id: 2,
-              title: "Criar exemplo de banco de dados usando SQL",
-              category: {
-                _id: "dsfds43",
-                title: "Faculdade",
-                color: "ORANGE",
-              },
-              columnId: "open",
-            },
-            {
-              id: 3,
-              title: "Configurar API",
-              category: {
-                _id: "dsfds43",
-                title: "test",
-                color: "PURPLE",
-              },
-              endDate: new Date(),
-              columnId: "open",
-            },
-          ],
-          notReached: [
-            {
-              id: 4,
-              title: "Criar exemplo de banco de dados usando SQL",
-              category: {
-                _id: "dsfds43",
-                title: "Faculdade",
-                color: "ORANGE",
-              },
-              columnId: "notReached",
-            },
-            {
-              id: 7,
-              title: "Configurar API",
-              category: {
-                _id: "dsfds43",
-                title: "Trabalho",
-                color: "GREEN",
-              },
-              columnId: "notReached",
-            },
-          ],
-          partiallyReached: [
-            {
-              id: 8,
-              title: "Criar exemplo de banco de dados usando SQL",
-              category: {
-                _id: "dsfds43",
-                title: "Faculdade",
-                color: "ORANGE",
-              },
-              columnId: "partiallyReached",
-            },
-            {
-              id: 9,
-              title: "Configurar API",
-              category: {
-                _id: "dsfds43",
-                title: "Teste",
-                color: "RED",
-              },
-              endDate: new Date(),
-              columnId: "partiallyReached",
-            },
-            {
-              id: 10,
-              title: "Configurar API",
-              category: {
-                _id: "dsfds43",
-                title: "Faculdade",
-                color: "ORANGE",
-              },
-              columnId: "partiallyReached",
-            },
-            {
-              id: 5,
-              title: "Configurar API",
-              category: {
-                _id: "dsfds43",
-                title: "Faculdade",
-                color: "ORANGE",
-              },
-              columnId: "partiallyReached",
-            },
-          ],
-          reached: [
-            {
-              id: 11,
-              title: "Criar exemplo de banco de dados usando SQL",
-              category: {
-                _id: "dsfds43",
-                title: "Faculdade",
-                color: "ORANGE",
-              },
-              columnId: "reached",
-            },
-            {
-              id: 12,
-              title: "Configurar API",
-              category: {
-                _id: "dsfds43",
-                title: "Faculdade",
-                color: "ORANGE",
-              },
-              columnId: "reached",
-            },
-            {
-              id: 13,
-              title: "Configurar API",
-              category: {
-                _id: "dsfds43",
-                title: "Faculdade",
-                color: "ORANGE",
-              },
-              columnId: "reached",
-            },
-          ],
+          notReached,
+          partiallyReached,
+          reached,
         });
       })
       .catch((err) => {
         handleError(err);
         setGoals({
-          open: [],
           notReached: [],
           partiallyReached: [],
           reached: [],
@@ -243,16 +122,15 @@ export const GoalsProvider = ({ children }: { children: ReactNode }) => {
       });
   }
 
-  async function updateGoal(goal: GoalProps) {
+  async function updateGoal(id: string, status: StatusGoalType) {
     setIsGoalsLoading(true);
     await api
-      .put(`goals/${goal.id}`, goal)
-      .then(() => {})
+      .put(`goals/${id}`, {
+        status
+      })
+      .then(() => {getGoals()})
       .catch((err) => {
         handleError(err);
-      })
-      .finally(() => {
-        getGoals();
       });
   }
 
@@ -266,12 +144,15 @@ export const GoalsProvider = ({ children }: { children: ReactNode }) => {
       })
       .finally(() => {
         getGoals();
+        setIsGoalsLoading(false);
       });
   }
 
   useEffect(() => {
-    getGoals();
-  }, []);
+    if (user) {
+      getGoals();
+    }
+  }, [user]);
 
   return (
     <GoalsContext.Provider

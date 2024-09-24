@@ -1,11 +1,15 @@
 import { CategoryColorType } from "./CategoryProps";
 
-export type ColumnType = "open" | "notReached" | "partiallyReached" | "reached";
+export type ColumnType = "notReached" | "partiallyReached" | "reached";
+export type StatusGoalType =  "NOT_REACHED" | "PARTIALLY_REACHED" | "REACHED";
 
 export type GoalProps = {
-  id: number;
+  _id: string;
   title: string;
-  endDate?: Date;
+  description: string;
+  status: StatusGoalType;
+  end_date?: string;
+  priority: "HIGH";
   category: {
     _id: string;
     title: string;
@@ -16,13 +20,15 @@ export type GoalProps = {
 
 export type NewGoalProps = {
   title: string;
-  endDate?: Date;
+  description: string;
+  priority: "HIGH";
+  end_date?: string;
   category_id: string;
-  columnId: ColumnType;
+  notification_time_unit?: "MINUTE" | "HOUR" | null;
+  notification_time_value?: number | null;
 };
 
 export type GoalsSummaryProps = {
-  open: GoalProps[];
   notReached: GoalProps[];
   partiallyReached: GoalProps[];
   reached: GoalProps[];

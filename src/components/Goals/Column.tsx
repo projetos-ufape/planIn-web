@@ -47,13 +47,13 @@ export function Column({ label, columnId, data }: ColumnProps) {
           <>
             {data.map((g, index) => {
               return (
-                <Box key={g.id} display="flex" flexDirection="column">
+                <Box key={g._id} display="flex" flexDirection="column">
                   {index === 0 && (
-                    <DropZone fatherId={g.id} columnId={columnId} position={index - 1} />
+                    <DropZone fatherId={g._id} columnId={columnId} position={index - 1} />
                   )}
                   <Card data={g} />
                   {index !== data.length - 1 && (
-                    <DropZone fatherId={g.id} columnId={columnId} position={index + 1} />
+                    <DropZone fatherId={g._id} columnId={columnId} position={index + 1} />
                   )}
                 </Box>
               );

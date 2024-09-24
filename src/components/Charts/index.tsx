@@ -45,55 +45,55 @@ export function Charts() {
     setTimeout(() => {
       setLineChartData({
         series: {
-          values: [2, 5.5, 2, 8.5, 1.5, 5],
+          values: [1, 2, 5, 2, 5, 6, 5],
           label: "Tarefas concluídas",
         },
-        xAxis: [1, 2, 3, 4, 5, 6],
+        xAxis: [22, 23, 24, 25, 26, 27, 28],
       });
       setShiftBarChartData({
         series: [
           {
-            values: [4, 3, 5, 7, 2],
+            values: [1, 0, 2, 0, 1, 2, 1],
             label: "Matutino",
             color: "#A6CEE3",
           },
           {
-            values: [1, 6, 3, 6, 5],
+            values: [0, 1, 1, 1, 3, 2, 2],
             label: "Vespertino",
             color: "#1F78B4",
           },
           {
-            values: [2, 5, 6, 4, 8],
+            values: [0, 1, 2, 1, 1, 2, 2],
             label: "Noturno",
             color: "#B2DF8A",
           },
         ],
-        xAxis: ["group A", "group B", "group C"],
+        xAxis: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"],
       });
       setGoalsBarChartData({
         series: [
           {
-            values: [4, 3, 5, 7, 2],
+            values: [0, 1, 2, 1, 0, 2, 0],
             label: "Trabalho",
             color: "#89251F",
           },
           {
-            values: [1, 6, 3, 6, 5],
+            values: [0, 0, 1, 0, 2, 1, 2],
             label: "Faculdade",
             color: "#895F1F",
-          },
+          },// [1, 2, 5, 2, 5, 6, 5],
           {
-            values: [2, 5, 6, 4, 8],
+            values: [0, 1, 0, 1, 1, 0, 2],
             label: "Pessoal",
             color: "#68428E",
           },
           {
-            values: [6, 4, 3, 5, 7],
+            values: [1, 0, 1, 0, 2, 3, 1],
             label: "Projeto individual",
             color: "#1F8970",
           },
         ],
-        xAxis: ["group A", "group B", "group C", "group D", "group E"],
+        xAxis: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"],
       });
       setPieData([
         { value: 10, label: "Atingidas", color: "#B2DF8A" },
